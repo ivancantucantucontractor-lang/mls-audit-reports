@@ -1,1 +1,23 @@
-[]
+[
+  {
+    "slug": "spark-rebny-demo",
+    "name": "Spark REBNY (demo)",
+    "run_id": "2026-08-31T17-57-42Z",
+    "generated_at": "2026-08-27T21:51:35+00:00",
+    "published_at": "2026-08-31T17:57:42+00:00",
+    "verdict": "not_ready",
+    "t1_fail": 17,
+    "elapsed_s": 17.6,
+    "counts": {
+      "galaxy_rows": 245,
+      "listhub_rows": 26
+    },
+    "feed_url": "https://replication.sparkapi.com/Reso/OData/",
+    "auth": "bearer",
+    "owner": {
+      "name": "Ivan Cantucantu",
+      "email": "ivan.cantucantu.contractor@realtor.com"
+    },
+    "path": "reports/spark-rebny-demo/2026-08-31T17-57-42Z/"
+  }
+]
