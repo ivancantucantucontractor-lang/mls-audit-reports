@@ -334,7 +334,9 @@
     $('#dashboard-stats').textContent = 'No runs published yet.';
   }
 
-  fetch('manifest.json', { cache: 'no-store' })
+  // Cache-bust the manifest — Fastly (in front of GH Pages) caches JSON
+  // for ~10 minutes and cache:'no-store' alone doesn't bypass the CDN.
+  fetch('manifest.json?t=' + Date.now(), { cache: 'no-store' })
     .then(r => r.json())
     .then(data => {
       STATE.all = Array.isArray(data) ? data : [];
