@@ -1,0 +1,492 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Spark REBNY (demo) · MLS Audit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="../../../styles.css" />
+</head>
+<body>
+<nav class="topbar">
+  <div class="inner">
+    <div class="brand">
+      <span class="dot" aria-hidden="true"></span>
+      <a href="../../../index.html">MLS Audit Reports</a>
+    </div>
+    <div style="font-size: 12px; color: var(--text-muted);">
+      Published 2026-08-31 · 13:39 CDT by Ivan Cantucantu
+    </div>
+  </div>
+</nav>
+
+<main class="page">
+
+
+
+
+<header class="masthead">
+  <div>
+    <div class="eyebrow">
+      <a href="../../../index.html" style="color: var(--text-muted); text-decoration: none;">← All reports</a>
+      &nbsp;·&nbsp; Audit · both
+    </div>
+    <h1>Spark REBNY (demo)</h1>
+    <div class="subtitle">
+      <code>https://replication.sparkapi.com/Reso/OData/</code>
+      · bearer
+      
+    </div>
+  </div>
+  <div class="masthead-actions">
+    
+      <div class="verdict critical"><span class="dot"></span>
+        Not launch-ready · 17 T1 gaps
+      </div>
+    
+    <div class="refresh-meta">
+      <span class="status-dot" aria-hidden="true"></span>
+      <span class="text">
+        
+          Audit run 2026-08-31 · 13:39 CDT · 19.6s
+        
+      </span>
+    </div>
+    <div style="display:flex; gap:6px; margin-top: 4px;">
+      <a class="btn ghost" href="galaxy.csv" style="padding: 4px 10px; font-size: 12px;">galaxy.csv</a>
+      <a class="btn ghost" href="listhub.csv" style="padding: 4px 10px; font-size: 12px;">listhub.csv</a>
+    </div>
+  </div>
+</header>
+
+
+
+
+<div class="grid-stats" aria-label="Status roll-up">
+  <div class="stat" data-role="good">
+    <div class="label"><span class="swatch" style="background:var(--good)"></span>Pass</div>
+    <div class="value">173</div>
+    <div class="sub">field / requirement checks satisfied</div>
+  </div>
+  <div class="stat" data-role="critical">
+    <div class="label"><span class="swatch" style="background:var(--critical)"></span>Fail</div>
+    <div class="value">49</div>
+    <div class="sub">
+      17 Tier 1
+       · 
+      4 T1 empty
+      
+    </div>
+  </div>
+  <div class="stat" data-role="warning">
+    <div class="label"><span class="swatch" style="background:var(--warning)"></span>Empty</div>
+    <div class="value">15</div>
+    <div class="sub">declared but unpopulated in sample</div>
+  </div>
+  <div class="stat" data-role="serious">
+    <div class="label"><span class="swatch" style="background:var(--serious)"></span>Verify</div>
+    <div class="value">8</div>
+    <div class="sub">MLS confirmation required</div>
+  </div>
+  <div class="stat" data-role="info">
+    <div class="label"><span class="swatch" style="background:var(--info)"></span>Live counts</div>
+    <div class="value">8</div>
+    
+      <div class="counts-strip">
+        
+          <div class="kv">Active Listings <strong>4,028</strong></div>
+        
+          <div class="kv">Pending Listings <strong>700</strong></div>
+        
+          <div class="kv">Sold Listings <strong>119,495</strong></div>
+        
+          <div class="kv">Rental <strong>4,187</strong></div>
+        
+      </div>
+    
+  </div>
+</div>
+
+
+<section aria-labelledby="blockers-h">
+  <h2 id="blockers-h">Launch blockers &amp; risks <span class="count">12 findings · ranked by impact</span></h2>
+  <div class="blockers">
+    
+      <article class="blocker" data-severity="critical">
+        <div class="rank">1</div>
+        <div class="body">
+          <h3>
+            No bathrooms breakdown
+            <span class="chip severity-critical">Tier 1</span>
+            <span class="chip">Property</span>
+          </h3>
+          
+            <div class="fields-inline">
+              <code>BathroomsFull</code><code>BathroomsHalf</code><code>BathroomsPartial</code>
+            </div>
+          
+          <dl class="kv">
+            <dt>Impact</dt><dd>UX gap on every listing card and detail page. RDC+ can show &#34;3 baths&#34; but not &#34;3 full + 1 half.&#34;</dd>
+            <dt>Action</dt><dd>Ask the MLS if the breakdown exists under local column names before accepting — usually a &#34;we didn&#39;t select it&#34; problem in the feed vendor&#39;s UI, not a data gap.</dd>
+          </dl>
+        </div>
+      </article>
+    
+      <article class="blocker" data-severity="critical">
+        <div class="rank">2</div>
+        <div class="body">
+          <h3>
+            Agent license &amp; direct phone missing
+            <span class="chip severity-critical">Tier 1</span>
+            <span class="chip">Agent</span>
+          </h3>
+          
+            <div class="fields-inline">
+              <code>MemberDirectPhone</code><code>MemberStateLicenseNumber</code>
+            </div>
+          
+          <dl class="kv">
+            <dt>Impact</dt><dd>License # drives compliance flags and the agent card. Direct phone falls back to office if absent.</dd>
+            <dt>Action</dt><dd>Push the MLS — most feeds carry these; typically a selection issue in the feed vendor&#39;s UI, not a collection gap.</dd>
+          </dl>
+        </div>
+      </article>
+    
+      <article class="blocker" data-severity="critical">
+        <div class="rank">3</div>
+        <div class="body">
+          <h3>
+            Media has no modification timestamp
+            <span class="chip severity-critical">Tier 1</span>
+            <span class="chip">Media</span>
+          </h3>
+          
+            <div class="fields-inline">
+              <code>MediaModificationTimestamp</code><code>ModificationTimestamp</code>
+            </div>
+          
+          <dl class="kv">
+            <dt>Impact</dt><dd>Incremental sync can&#39;t detect a photo or caption change on its own. Determines whether delta-loading is even viable.</dd>
+            <dt>Action</dt><dd>Ask the MLS whether Media mutations roll up to Property.ModificationTimestamp. If yes, mitigation is a full-media resync per changed Property. If no — real gap.</dd>
+          </dl>
+        </div>
+      </article>
+    
+      <article class="blocker" data-severity="critical">
+        <div class="rank">4</div>
+        <div class="body">
+          <h3>
+            1 other Tier 1 field(s) missing
+            <span class="chip severity-critical">Tier 1</span>
+            <span class="chip">OpenHouse (1)</span>
+          </h3>
+          
+            <div class="fields-inline">
+              <code>ListingId</code>
+            </div>
+          
+          <dl class="kv">
+            <dt>Impact</dt><dd>Fields the checklist tiers as launch blockers that aren&#39;t covered by the specific patterns above. Review each in the full table.</dd>
+            <dt>Action</dt><dd>For each, check the feed metadata for a local-column alias, then push the MLS if none exists.</dd>
+          </dl>
+        </div>
+      </article>
+    
+      <article class="blocker" data-severity="serious">
+        <div class="rank">5</div>
+        <div class="body">
+          <h3>
+            Country field missing
+            <span class="chip severity-critical">Tier 1</span>
+            <span class="chip">Property</span>
+          </h3>
+          
+            <div class="fields-inline">
+              <code>Country</code>
+            </div>
+          
+          <dl class="kv">
+            <dt>Impact</dt><dd>Downstream geocoding/search may assume a null. Mitigatable by hard-coding &#34;US&#34; in ingestion when applicable.</dd>
+            <dt>Action</dt><dd>Note in launch RA; low priority to push the MLS.</dd>
+          </dl>
+        </div>
+      </article>
+    
+      <article class="blocker" data-severity="serious">
+        <div class="rank">6</div>
+        <div class="body">
+          <h3>
+            Datashare scope unknown
+            <span class="chip severity-warning">Contract</span>
+            <span class="chip">Property</span>
+          </h3>
+          
+          <dl class="kv">
+            <dt>Impact</dt><dd>How much of the feed is native vs. shared in from other MLSes? Which field identifies origin? Affects display rules, syndication licensing, and per-source filters.</dd>
+            <dt>Action</dt><dd>Get a written answer from the MLS before signing. Ask specifically about OriginatingSystemName and OriginatingSystemSubName populations.</dd>
+          </dl>
+        </div>
+      </article>
+    
+      <article class="blocker" data-severity="serious">
+        <div class="rank">7</div>
+        <div class="body">
+          <h3>
+            LivingArea &amp; ParkingTotal absent
+            <span class="chip severity-serious">Tier 2</span>
+            <span class="chip">Property</span>
+          </h3>
+          
+            <div class="fields-inline">
+              <code>LivingArea</code><code>ParkingTotal</code>
+            </div>
+          
+          <dl class="kv">
+            <dt>Impact</dt><dd>Square footage is UX-critical; parking count feeds filters.</dd>
+            <dt>Action</dt><dd>Very likely present under alternate names (e.g. ApproxLivingArea, vendor L_* local columns). Have the MLS confirm before treating as absent.</dd>
+          </dl>
+        </div>
+      </article>
+    
+      <article class="blocker" data-severity="serious">
+        <div class="rank">8</div>
+        <div class="body">
+          <h3>
+            Historical listing data depth unknown
+            <span class="chip severity-warning">Contract</span>
+            <span class="chip">Property</span>
+          </h3>
+          
+          <dl class="kv">
+            <dt>Impact</dt><dd>History depth drives sold analytics and comps. Sold-to-Active ratio is a hint but not confirmation.</dd>
+            <dt>Action</dt><dd>Ask the MLS: how many years of history, and are Withdrawn/Expired/Cancelled statuses all sent.</dd>
+          </dl>
+        </div>
+      </article>
+    
+      <article class="blocker" data-severity="serious">
+        <div class="rank">9</div>
+        <div class="body">
+          <h3>
+            Inactive agents/offices — MLS confirmation needed
+            <span class="chip severity-warning">Contract</span>
+            <span class="chip">Agent</span>
+          </h3>
+          
+          <dl class="kv">
+            <dt>Impact</dt><dd>Legacy attribution on older listings breaks if inactive agents/offices aren&#39;t sent alongside active ones.</dd>
+            <dt>Action</dt><dd>Confirm the MLS sends inactive and datashare agents/offices, not just currently-active.</dd>
+          </dl>
+        </div>
+      </article>
+    
+      <article class="blocker" data-severity="warning">
+        <div class="rank">10</div>
+        <div class="body">
+          <h3>
+            Short Sale cannot be expressed
+            <span class="chip severity-warning">Data content</span>
+            <span class="chip">Property</span>
+          </h3>
+          
+          <dl class="kv">
+            <dt>Impact</dt><dd>SpecialListingConditions exists but its Lookup carries no Short Sale value. If short sales occur in this market, the feed literally cannot represent them.</dd>
+            <dt>Action</dt><dd>MLS-side data fix — ask them to add the enum value to the Lookup. Not a schema issue.</dd>
+          </dl>
+        </div>
+      </article>
+    
+      <article class="blocker" data-severity="warning">
+        <div class="rank">11</div>
+        <div class="body">
+          <h3>
+            Broker tours / agent-only open houses
+            <span class="chip severity-warning">Contract</span>
+            <span class="chip">OpenHouse</span>
+          </h3>
+          
+          <dl class="kv">
+            <dt>Impact</dt><dd>These need contractual confirmation and a discriminator field (typically a MediaStatus or ShowingContactType) so we don&#39;t leak private opens to consumers.</dd>
+            <dt>Action</dt><dd>Ask the MLS whether they send broker-only opens and where they live in the feed.</dd>
+          </dl>
+        </div>
+      </article>
+    
+      <article class="blocker" data-severity="warning">
+        <div class="rank">12</div>
+        <div class="body">
+          <h3>
+            7 *KeyNumeric failures — accepted
+            <span class="chip severity-info">Cosmetic</span>
+            <span class="chip">Property</span>
+          </h3>
+          
+            <div class="fields-inline">
+              <code>BuyerAgentKeyNumeric</code><code>BuyerOfficeKeyNumeric</code><code>CoListAgentKeyNumeric</code><code>ListAgentKeyNumeric</code><code>ListOfficeKeyNumeric</code><code>ListingKeyNumeric</code>
+            </div>
+          
+          <dl class="kv">
+            <dt>Impact</dt><dd>String *Key counterparts are present and populated on every affected resource — join paths verified.</dd>
+            <dt>Action</dt><dd>Document in the launch RA that RDC joins on the string keys. Don&#39;t ask the vendor for numeric mirrors; many vendors&#39; internal IDs aren&#39;t numeric to begin with.</dd>
+          </dl>
+        </div>
+      </article>
+    
+  </div>
+</section>
+
+
+<section aria-labelledby="data-h">
+  <h2 id="data-h">Full findings <span class="count">every field &amp; requirement · click column headers to sort</span></h2>
+
+  <div class="tabs" role="tablist">
+    <button class="tab is-active" role="tab" data-tab="galaxy" aria-selected="true">
+      RDC+ Galaxy <span class="badge">245</span>
+    </button>
+    <button class="tab" role="tab" data-tab="listhub" aria-selected="false">
+      ListHub <span class="badge">26</span>
+    </button>
+  </div>
+
+  <div class="filter-row" role="toolbar" aria-label="Table filters">
+    <span class="filter-label">Status</span>
+    <div class="filter-group" id="status-filters"></div>
+    <span class="filter-label" style="margin-left: 12px">Resource</span>
+    <div class="filter-group" id="resource-filters"></div>
+    <input type="search" class="search" id="search" placeholder="Search field or detail…" aria-label="Search rows" />
+  </div>
+
+  <div class="table-wrap">
+    <table id="findings-table">
+      <thead>
+        <tr>
+          <th data-sort="resource">Resource <span class="sort-arrow">↕</span></th>
+          <th data-sort="tier">Tier <span class="sort-arrow">↕</span></th>
+          <th data-sort="category">Category <span class="sort-arrow">↕</span></th>
+          <th data-sort="name">Field / Requirement <span class="sort-arrow">↕</span></th>
+          <th data-sort="status">Status <span class="sort-arrow">↕</span></th>
+          <th data-sort="detail">Detail <span class="sort-arrow">↕</span></th>
+        </tr>
+      </thead>
+      <tbody id="findings-body"></tbody>
+    </table>
+  </div>
+
+  <p class="footnote">
+    Sample size: 50 rows per resource, newest-first. Published <strong>2026-08-31 · 13:39 CDT</strong> by <strong>Ivan Cantucantu</strong>. Status: <span class="status-pill status-PASS">PASS</span> present &amp; populated · <span class="status-pill status-EMPTY">EMPTY</span> declared but no sampled row filled it · <span class="status-pill status-VERIFY">VERIFY</span> confirm with MLS · <span class="status-pill status-FAIL">FAIL</span> absent from feed · <span class="status-pill status-COUNT">COUNT</span> live record total (ListHub).
+  </p>
+</section>
+
+
+<script type="application/json" id="audit-data">{"galaxy": [{"category": "requirement", "detail": "documents located in feed, verify captions/coverage", "feed_resource": "Property", "name": "Confidential Documents \u2014 must be in feed with caption/title fields", "note": "", "resource": "Property", "status": "PASS", "tier": "1"}, {"category": "requirement", "detail": "verify with MLS", "feed_resource": "Property", "name": "ALL agent-viewable listing data (flex, coming soon, members only, private listings)", "note": "", "resource": "Property", "status": "VERIFY", "tier": "1"}, {"category": "requirement", "detail": "verify with MLS", "feed_resource": "Property", "name": "Datashares -- understanding at the onset the extent of datashares in the feed, and optionally which fields represent this (for instance, OriginatingSystemName or OriginatingSystemSubName)", "note": "", "resource": "Property", "status": "VERIFY", "tier": "1"}, {"category": "requirement", "detail": "verify with MLS", "feed_resource": "Property", "name": "All historical listing data (at minimum, some historical data is Tier 1)", "note": "", "resource": "Property", "status": "VERIFY", "tier": "2"}, {"category": "requirement", "detail": "verify with MLS", "feed_resource": "Property", "name": "Rooms data (individual room details)", "note": "", "resource": "Property", "status": "VERIFY", "tier": "3"}, {"category": "field", "detail": "not in feed metadata", "feed_resource": "Property", "name": "BathroomsFull", "note": "", "resource": "Property", "status": "FAIL", "tier": "1"}, {"category": "field", "detail": "not in feed metadata", "feed_resource": "Property", "name": "BathroomsHalf", "note": "", "resource": "Property", "status": "FAIL", "tier": "1"}, {"category": "field", "detail": "not in feed metadata", "feed_resource": "Property", "name": "BathroomsPartial", "note": "", "resource": "Property", "status": "FAIL", "tier": "1"}, {"category": "field", "detail": "populated in 50/50 sampled rows", "feed_resource": "Property", "name": "BathroomsTotalInteger", "note": "", "resource": "Property", "status": "PASS", "tier": "1"}, {"category": "field", "detail": "populated in 47/50 sampled rows", "feed_resource": "Property", "name": "BedroomsTotal", "note": "", "resource": "Property", "status": "PASS", "tier": "1"}, {"category": "field", "detail": "populated in 6/50 sampled rows", "feed_resource": "Property", "name": "BuyerAgentKey", "note": "", "resource": "Property", "status": "PASS", "tier": "1"}, {"category": "field", "detail": "not in feed metadata", "feed_resource": "Property", "name": "BuyerAgentKeyNumeric", "note": "", "resource": "Property", "status": "FAIL", "tier": "1"}, {"category": "field", "detail": "populated in 6/50 sampled rows", "feed_resource": "Property", "name": "BuyerAgentMlsId", "note": "", "resource": "Property", "status": "PASS", "tier": "1"}, {"category": "field", "detail": "populated in 6/50 sampled rows", "feed_resource": "Property", "name": "BuyerOfficeKey", "note": "", "resource": "Property", "status": "PASS", "tier": "1"}, {"category": "field", "detail": "not in feed metadata", "feed_resource": "Property", "name": "BuyerOfficeKeyNumeric", "note": "", "resource": "Property", "status": "FAIL", "tier": "1"}, {"category": "field", "detail": "populated in 6/50 sampled rows", "feed_resource": "Property", "name": "BuyerOfficeMlsId", "note": "", "resource": "Property", "status": "PASS", "tier": "1"}, {"category": "field", "detail": "populated in 50/50 sampled rows", "feed_resource": "Property", "name": "City", "note": "", "resource": "Property", "status": "PASS", "tier": "1"}, {"category": "field", "detail": "populated in 6/50 sampled rows", "feed_resource": "Property", "name": "CloseDate", "note": "", "resource": "Property", "status": "PASS", "tier": "1"}, {"category": "field", "detail": "populated in 6/50 sampled rows", "feed_resource": "Property", "name": "ClosePrice", "note": "", "resource": "Property", "status": "PASS", "tier": "1"}, {"category": "field", "detail": "populated in 0/50 sampled rows", "feed_resource": "Property", "name": "CoBuyerAgentKey", "note": "", "resource": "Property", "status": "EMPTY", "tier": "1"}, {"category": "field", "detail": "not in feed metadata", "feed_resource": "Property", "name": "CoBuyerAgentKeyNumeric", "note": "", "resource": "Property", "status": "FAIL", "tier": "1"}, {"category": "field", "detail": "populated in 0/50 sampled rows", "feed_resource": "Property", "name": "CoBuyerAgentMlsId", "note": "", "resource": "Property", "status": "EMPTY", "tier": "1"}, {"category": "field", "detail": "populated in 0/50 sampled rows", "feed_resource": "Property", "name": "CoBuyerOfficeKey", "note": "", "resource": "Property", "status": "EMPTY", "tier": "1"}, {"category": "field", "detail": "populated in 0/50 sampled rows", "feed_resource": "Property", "name": "CoBuyerOfficeMlsId", "note": "", "resource": "Property", "status": "EMPTY", "tier": "1"}, {"category": "field", "detail": "populated in 14/50 sampled rows", "feed_resource": "Property", "name": "CoListAgentKey", "note": "", "resource": "Property", "status": "PASS", "tier": "1"}, {"category": "field", "detail": "not in feed metadata", "feed_resource": "Property", "name": "CoListAgentKeyNumeric", "note": "", "resource": "Property", "status": "FAIL", "tier": "1"}, {"category": "field", "detail": "populated in 14/50 sampled rows", "feed_resource": "Property", "name": "CoListAgentMlsId", "note": "", "resource": "Property", "status": "PASS", "tier": "1"}, {"category": "field", "detail": "populated in 14/50 sampled rows", "feed_resource": "Property", "name": "CoListOfficeKey", "note": "", "resource": "Property", "status": "PASS", "tier": "1"}, {"category": "field", "detail": "populated in 14/50 sampled rows", "feed_resource": "Property", "name": "CoListOfficeMlsId", "note": "", "resource": "Property", "status": "PASS", "tier": "1"}, {"category": "field", "detail": "not in feed metadata", "feed_resource": "Property", "name": "Country", "note": "", "resource": "Property", "status": "FAIL", "tier": "1"}, {"category": "field", "detail": "populated in 50/50 sampled rows", "feed_resource": "Property", "name": "CountyOrParish", "note": "", "resource": "Property", "status": "PASS", "tier": "1"}, {"category": "field", "detail": "populated in 50/50 sampled rows", "feed_resource": "Property", "name": "CumulativeDaysOnMarket", "note": "", "resource": "Property", "status": "PASS", "tier": "1"}, {"category": "field", "detail": "populated in 50/50 sampled rows", "feed_resource": "Property", "name": "DaysOnMarket", "note": "", "resource": "Property", "status": "PASS", "tier": "1"}, {"category": "field", "detail": "populated in 50/50 sampled rows", "feed_resource": "Property", "name": "DocumentsCount", "note": "", "resource": "Property", "status": "PASS", "tier": "1"}, {"category": "field", "detail": "populated in 50/50 sampled rows", "feed_resource": "Property", "name": "ListAgentKey", "note": "", "resource": "Property", "status": "PASS", "tier": "1"}, {"category": "field", "detail": "not in feed metadata", "feed_resource": "Property", "name": "ListAgentKeyNumeric", "note": "", "resource": "Property", "status": "FAIL", "tier": "1"}, {"category": "field", "detail": "populated in 50/50 sampled rows", "feed_resource": "Property", "name": "ListAgentMlsId", "note": "", "resource": "Property", "status": "PASS", "tier": "1"}, {"category": "field", "detail": "populated in 50/50 sampled rows", "feed_resource": "Property", "name": "ListingId", "note": "", "resource": "Property", "status": "PASS", "tier": "1"}, {"category": "field", "detail": "populated in 50/50 sampled rows", "feed_resource": "Property", "name": "ListingKey", "note": "", "resource": "Property", "status": "PASS", "tier": "1"}, {"category": "field", "detail": "not in feed metadata", "feed_resource": "Property", "name": "ListingKeyNumeric", "note": "", "resource": "Property", "status": "FAIL", "tier": "1"}, {"category": "field", "detail": "populated in 50/50 sampled rows", "feed_resource": "Property", "name": "ListOfficeKey", "note": "", "resource": "Property", "status": "PASS", "tier": "1"}, {"category": "field", "detail": "not in feed metadata", "feed_resource": "Property", "name": "ListOfficeKeyNumeric", "note": "", "resource": "Property", "status": "FAIL", "tier": "1"}, {"category": "field", "detail": "populated in 50/50 sampled rows", "feed_resource": "Property", "name": "ListOfficeMlsId", "note": "", "resource": "Property", "status": "PASS", "tier": "1"}, {"category": "field", "detail": "populated in 50/50 sampled rows", "feed_resource": "Property", "name": "ListPrice", "note": "", "resource": "Property", "status": "PASS", "tier": "1"}, {"category": "field", "detail": "populated in 50/50 sampled rows", "feed_resource": "Property", "name": "ModificationTimestamp", "note": "", "resource": "Property", "status": "PASS", "tier": "1"}, {"category": "field", "detail": "populated in 50/50 sampled rows", "feed_resource": "Property", "name": "OriginalListPrice", "note": "", "resource": "Property", "status": "PASS", "tier": "1"}, {"category": "field", "detail": "populated in 50/50 sampled rows", "feed_resource": "Property", "name": "OriginatingSystemName", "note": "", "resource": "Property", "status": "PASS", "tier": "1"}, {"category": "field", "detail": "populated in 50/50 sampled rows", "feed_resource": "Property", "name": "PhotosCount", "note": "", "resource": "Property", "status": "PASS", "tier": "1"}, {"category": "field", "detail": "populated in 39/50 sampled rows", "feed_resource": "Property", "name": "PrivateRemarks", "note": "", "resource": "Property", "status": "PASS", "tier": "1"}, {"category": "field", "detail": "populated in 50/50 sampled rows", "feed_resource": "Property", "name": "PropertyType", "note": "", "resource": "Property", "status": "PASS", "tier": "1"}, {"category": "field", "detail": "populated in 50/50 sampled rows", "feed_resource": "Property", "name": "PublicRemarks", "note": "", "resource": "Property", "status": "PASS", "tier": "1"}, {"category": "field", "detail": "populated in 40/50 sampled rows", "feed_resource": "Property", "name": "ShowingInstructions", "note": "", "resource": "Property", "status": "PASS", "tier": "1"}, {"category": "field", "detail": "populated in 13/50 sampled rows", "feed_resource": "Property", "name": "ShowingRequirements", "note": "", "resource": "Property", "status": "PASS", "tier": "1"}, {"category": "field", "detail": "populated in 50/50 sampled rows", "feed_resource": "Property", "name": "StandardStatus", "note": "", "resource": "Property", "status": "PASS", "tier": "1"}, {"category": "field", "detail": "populated in 50/50 sampled rows", "feed_resource": "Property", "name": "StateOrProvince", "note": "", "resource": "Property", "status": "PASS", "tier": "1"}, {"category": "field", "detail": "populated in 50/50 sampled rows", "feed_resource": "Property", "name": "StatusChangeTimestamp", "note": "", "resource": "Property", "status": "PASS", "tier": "1"}, {"category": "field", "detail": "populated in 42/50 sampled rows", "feed_resource": "Property", "name": "StreetDirPrefix", "note": "", "resource": "Property", "status": "PASS", "tier": "1"}, {"category": "field", "detail": "populated in 16/50 sampled rows", "feed_resource": "Property", "name": "StreetDirSuffix", "note": "", "resource": "Property", "status": "PASS", "tier": "1"}, {"category": "field", "detail": "populated in 50/50 sampled rows", "feed_resource": "Property", "name": "StreetName", "note": "", "resource": "Property", "status": "PASS", "tier": "1"}, {"category": "field", "detail": "populated in 50/50 sampled rows", "feed_resource": "Property", "name": "StreetNumber", "note": "", "resource": "Property", "status": "PASS", "tier": "1"}, {"category": "field", "detail": "populated in 50/50 sampled rows", "feed_resource": "Property", "name": "StreetNumberNumeric", "note": "", "resource": "Property", "status": "PASS", "tier": "1"}, {"category": "field", "detail": "populated in 30/50 sampled rows", "feed_resource": "Property", "name": "StreetSuffix", "note": "", "resource": "Property", "status": "PASS", "tier": "1"}, {"category": "field", "detail": "populated in 43/50 sampled rows", "feed_resource": "Property", "name": "AssociationFee", "note": "", "resource": "Property", "status": "PASS", "tier": "2"}, {"category": "field", "detail": "populated in 46/50 sampled rows", "feed_resource": "Property", "name": "AssociationFeeFrequency", "note": "", "resource": "Property", "status": "PASS", "tier": "2"}, {"category": "field", "detail": "populated in 6/50 sampled rows", "feed_resource": "Property", "name": "BuyerAgentFullName", "note": "", "resource": "Property", "status": "PASS", "tier": "2"}, {"category": "field", "detail": "populated in 6/50 sampled rows", "feed_resource": "Property", "name": "BuyerOfficeName", "note": "", "resource": "Property", "status": "PASS", "tier": "2"}, {"category": "field", "detail": "populated in 0/50 sampled rows", "feed_resource": "Property", "name": "CoBuyerAgentFullName", "note": "", "resource": "Property", "status": "EMPTY", "tier": "2"}, {"category": "field", "detail": "populated in 14/50 sampled rows", "feed_resource": "Property", "name": "CoListAgentFullName", "note": "", "resource": "Property", "status": "PASS", "tier": "2"}, {"category": "field", "detail": "populated in 14/50 sampled rows", "feed_resource": "Property", "name": "CoListOfficeName", "note": "", "resource": "Property", "status": "PASS", "tier": "2"}, {"category": "field", "detail": "populated in 50/50 sampled rows", "feed_resource": "Property", "name": "ContractStatusChangeDate", "note": "", "resource": "Property", "status": "PASS", "tier": "2"}, {"category": "field", "detail": "populated in 43/50 sampled rows", "feed_resource": "Property", "name": "GarageSpaces", "note": "", "resource": "Property", "status": "PASS", "tier": "2"}, {"category": "field", "detail": "populated in 50/50 sampled rows", "feed_resource": "Property", "name": "InternetAddressDisplayYN", "note": "", "resource": "Property", "status": "PASS", "tier": "2"}, {"category": "field", "detail": "populated in 50/50 sampled rows", "feed_resource": "Property", "name": "InternetEntireListingDisplayYN", "note": "", "resource": "Property", "status": "PASS", "tier": "2"}, {"category": "field", "detail": "populated in 50/50 sampled rows", "feed_resource": "Property", "name": "Latitude", "note": "", "resource": "Property", "status": "PASS", "tier": "2"}, {"category": "field", "detail": "populated in 26/50 sampled rows", "feed_resource": "Property", "name": "ListAgentDirectPhone", "note": "", "resource": "Property", "status": "PASS", "tier": "2"}, {"category": "field", "detail": "populated in 50/50 sampled rows", "feed_resource": "Property", "name": "ListAgentEmail", "note": "", "resource": "Property", "status": "PASS", "tier": "2"}, {"category": "field", "detail": "populated in 50/50 sampled rows", "feed_resource": "Property", "name": "ListAgentFullName", "note": "", "resource": "Property", "status": "PASS", "tier": "2"}, {"category": "field", "detail": "populated in 31/50 sampled rows", "feed_resource": "Property", "name": "ListAgentMobilePhone", "note": "", "resource": "Property", "status": "PASS", "tier": "2"}, {"category": "field", "detail": "populated in 49/50 sampled rows", "feed_resource": "Property", "name": "ListAgentPreferredPhone", "note": "", "resource": "Property", "status": "PASS", "tier": "2"}, {"category": "field", "detail": "populated in 50/50 sampled rows", "feed_resource": "Property", "name": "ListOfficeEmail", "note": "", "resource": "Property", "status": "PASS", "tier": "2"}, {"category": "field", "detail": "populated in 50/50 sampled rows", "feed_resource": "Property", "name": "ListOfficeName", "note": "", "resource": "Property", "status": "PASS", "tier": "2"}, {"category": "field", "detail": "populated in 16/50 sampled rows", "feed_resource": "Property", "name": "ListOfficePhone", "note": "", "resource": "Property", "status": "PASS", "tier": "2"}, {"category": "field", "detail": "not in feed metadata", "feed_resource": "Property", "name": "LivingArea", "note": "", "resource": "Property", "status": "FAIL", "tier": "2"}, {"category": "field", "detail": "populated in 50/50 sampled rows", "feed_resource": "Property", "name": "Longitude", "note": "", "resource": "Property", "status": "PASS", "tier": "2"}, {"category": "field", "detail": "populated in 46/50 sampled rows", "feed_resource": "Property", "name": "LotSizeAcres", "note": "", "resource": "Property", "status": "PASS", "tier": "2"}, {"category": "field", "detail": "populated in 50/50 sampled rows", "feed_resource": "Property", "name": "MlsStatus", "note": "", "resource": "Property", "status": "PASS", "tier": "2"}, {"category": "field", "detail": "populated in 42/50 sampled rows", "feed_resource": "Property", "name": "NewConstructionYN", "note": "", "resource": "Property", "status": "PASS", "tier": "2"}, {"category": "field", "detail": "populated in 50/50 sampled rows", "feed_resource": "Property", "name": "OnMarketDate", "note": "", "resource": "Property", "status": "PASS", "tier": "2"}, {"category": "field", "detail": "not in feed metadata", "feed_resource": "Property", "name": "ParkingTotal", "note": "", "resource": "Property", "status": "FAIL", "tier": "2"}, {"category": "field", "detail": "populated in 50/50 sampled rows", "feed_resource": "Property", "name": "PostalCode", "note": "", "resource": "Property", "status": "PASS", "tier": "2"}, {"category": "field", "detail": "populated in 0/50 sampled rows", "feed_resource": "Property", "name": "SeniorCommunityYN", "note": "", "resource": "Property", "status": "EMPTY", "tier": "2"}, {"category": "field", "detail": "populated in 46/50 sampled rows", "feed_resource": "Property", "name": "YearBuilt", "note": "", "resource": "Property", "status": "PASS", "tier": "2"}, {"category": "field", "detail": "not in feed metadata", "feed_resource": "Property", "name": "Appliances", "note": "", "resource": "Property", "status": "FAIL", "tier": "3"}, {"category": "field", "detail": "not in feed metadata", "feed_resource": "Property", "name": "ArchitecturalStyle", "note": "", "resource": "Property", "status": "FAIL", "tier": "3"}, {"category": "field", "detail": "populated in 2/50 sampled rows", "feed_resource": "Property", "name": "AssociationAmenities", "note": "", "resource": "Property", "status": "PASS", "tier": "3"}, {"category": "field", "detail": "not in feed metadata", "feed_resource": "Property", "name": "BathroomsOneQuarter", "note": "", "resource": "Property", "status": "FAIL", "tier": "3"}, {"category": "field", "detail": "not in feed metadata", "feed_resource": "Property", "name": "BathroomsThreeQuarter", "note": "", "resource": "Property", "status": "FAIL", "tier": "3"}, {"category": "field", "detail": "populated in 6/50 sampled rows", "feed_resource": "Property", "name": "BuyerAgentEmail", "note": "", "resource": "Property", "status": "PASS", "tier": "3"}, {"category": "field", "detail": "populated in 4/50 sampled rows", "feed_resource": "Property", "name": "BuyerAgentPreferredPhone", "note": "", "resource": "Property", "status": "PASS", "tier": "3"}, {"category": "field", "detail": "populated in 14/50 sampled rows", "feed_resource": "Property", "name": "CoListAgentEmail", "note": "", "resource": "Property", "status": "PASS", "tier": "3"}, {"category": "field", "detail": "populated in 14/50 sampled rows", "feed_resource": "Property", "name": "CoListAgentPreferredPhone", "note": "", "resource": "Property", "status": "PASS", "tier": "3"}, {"category": "field", "detail": "populated in 31/50 sampled rows", "feed_resource": "Property", "name": "CommunityFeatures", "note": "", "resource": "Property", "status": "PASS", "tier": "3"}, {"category": "field", "detail": "populated in 46/50 sampled rows", "feed_resource": "Property", "name": "Cooling", "note": "", "resource": "Property", "status": "PASS", "tier": "3"}, {"category": "field", "detail": "populated in 0/50 sampled rows", "feed_resource": "Property", "name": "ExteriorFeatures", "note": "", "resource": "Property", "status": "EMPTY", "tier": "3"}, {"category": "field", "detail": "populated in 46/50 sampled rows", "feed_resource": "Property", "name": "Heating", "note": "", "resource": "Property", "status": "PASS", "tier": "3"}, {"category": "field", "detail": "populated in 4/50 sampled rows", "feed_resource": "Property", "name": "InteriorFeatures", "note": "", "resource": "Property", "status": "PASS", "tier": "3"}, {"category": "field", "detail": "populated in 50/50 sampled rows", "feed_resource": "Property", "name": "ListAgentFirstName", "note": "", "resource": "Property", "status": "PASS", "tier": "3"}, {"category": "field", "detail": "populated in 50/50 sampled rows", "feed_resource": "Property", "name": "ListAgentLastName", "note": "", "resource": "Property", "status": "PASS", "tier": "3"}, {"category": "field", "detail": "populated in 50/50 sampled rows", "feed_resource": "Property", "name": "ListingContractDate", "note": "", "resource": "Property", "status": "PASS", "tier": "3"}, {"category": "field", "detail": "populated in 46/50 sampled rows", "feed_resource": "Property", "name": "ListOfficeURL", "note": "", "resource": "Property", "status": "PASS", "tier": "3"}, {"category": "field", "detail": "not in feed metadata", "feed_resource": "Property", "name": "LivingAreaUnits", "note": "", "resource": "Property", "status": "FAIL", "tier": "3"}, {"category": "field", "detail": "populated in 44/50 sampled rows", "feed_resource": "Property", "name": "LotFeatures", "note": "", "resource": "Property", "status": "PASS", "tier": "3"}, {"category": "field", "detail": "not in feed metadata", "feed_resource": "Property", "name": "OriginatingSystemModificationTimestamp", "note": "", "resource": "Property", "status": "FAIL", "tier": "3"}, {"category": "field", "detail": "populated in 46/50 sampled rows", "feed_resource": "Property", "name": "ParcelNumber", "note": "", "resource": "Property", "status": "PASS", "tier": "3"}, {"category": "field", "detail": "populated in 44/50 sampled rows", "feed_resource": "Property", "name": "ParkingFeatures", "note": "", "resource": "Property", "status": "PASS", "tier": "3"}, {"category": "field", "detail": "populated in 0/50 sampled rows", "feed_resource": "Property", "name": "PatioAndPorchFeatures", "note": "", "resource": "Property", "status": "EMPTY", "tier": "3"}, {"category": "field", "detail": "not in feed metadata", "feed_resource": "Property", "name": "PetsAllowed", "note": "", "resource": "Property", "status": "FAIL", "tier": "3"}, {"category": "field", "detail": "populated in 50/50 sampled rows", "feed_resource": "Property", "name": "PhotosChangeTimestamp", "note": "", "resource": "Property", "status": "PASS", "tier": "3"}, {"category": "field", "detail": "populated in 28/50 sampled rows", "feed_resource": "Property", "name": "PreviousListPrice", "note": "", "resource": "Property", "status": "PASS", "tier": "3"}, {"category": "field", "detail": "populated in 28/50 sampled rows", "feed_resource": "Property", "name": "PriceChangeTimestamp", "note": "", "resource": "Property", "status": "PASS", "tier": "3"}, {"category": "field", "detail": "populated in 45/50 sampled rows", "feed_resource": "Property", "name": "Stories", "note": "", "resource": "Property", "status": "PASS", "tier": "3"}, {"category": "field", "detail": "populated in 50/50 sampled rows", "feed_resource": "Property", "name": "UnparsedAddress", "note": "", "resource": "Property", "status": "PASS", "tier": "3"}, {"category": "field", "detail": "populated in 0/50 sampled rows", "feed_resource": "Property", "name": "VirtualTourURLBranded", "note": "", "resource": "Property", "status": "EMPTY", "tier": "3"}, {"category": "field", "detail": "populated in 13/50 sampled rows", "feed_resource": "Property", "name": "VirtualTourURLUnbranded", "note": "", "resource": "Property", "status": "PASS", "tier": "3"}, {"category": "field", "detail": "populated in 6/50 sampled rows", "feed_resource": "Property", "name": "AccessibilityFeatures", "note": "", "resource": "Property", "status": "PASS", "tier": "4"}, {"category": "field", "detail": "not in feed metadata", "feed_resource": "Property", "name": "AdditionalParcelsDescription", "note": "", "resource": "Property", "status": "FAIL", "tier": "4"}, {"category": "field", "detail": "not in feed metadata", "feed_resource": "Property", "name": "AdditionalParcelsYN", "note": "", "resource": "Property", "status": "FAIL", "tier": "4"}, {"category": "field", "detail": "not in feed metadata", "feed_resource": "Property", "name": "AvailabilityDate", "note": "", "resource": "Property", "status": "FAIL", "tier": "4"}, {"category": "field", "detail": "populated in 11/50 sampled rows", "feed_resource": "Property", "name": "Basement", "note": "", "resource": "Property", "status": "PASS", "tier": "4"}, {"category": "field", "detail": "not in feed metadata", "feed_resource": "Property", "name": "BedroomsPossible", "note": "", "resource": "Property", "status": "FAIL", "tier": "4"}, {"category": "field", "detail": "populated in 1/50 sampled rows", "feed_resource": "Property", "name": "BuyerAgentDirectPhone", "note": "", "resource": "Property", "status": "PASS", "tier": "4"}, {"category": "field", "detail": "populated in 1/50 sampled rows", "feed_resource": "Property", "name": "BuyerAgentFax", "note": "", "resource": "Property", "status": "PASS", "tier": "4"}, {"category": "field", "detail": "populated in 6/50 sampled rows", "feed_resource": "Property", "name": "BuyerAgentFirstName", "note": "", "resource": "Property", "status": "PASS", "tier": "4"}, {"category": "field", "detail": "populated in 4/50 sampled rows", "feed_resource": "Property", "name": "BuyerAgentLastName", "note": "", "resource": "Property", "status": "PASS", "tier": "4"}, {"category": "field", "detail": "populated in 2/50 sampled rows", "feed_resource": "Property", "name": "BuyerAgentMobilePhone", "note": "", "resource": "Property", "status": "PASS", "tier": "4"}, {"category": "field", "detail": "populated in 1/50 sampled rows", "feed_resource": "Property", "name": "BuyerAgentOfficePhone", "note": "", "resource": "Property", "status": "PASS", "tier": "4"}, {"category": "field", "detail": "populated in 4/50 sampled rows", "feed_resource": "Property", "name": "BuyerOfficeEmail", "note": "", "resource": "Property", "status": "PASS", "tier": "4"}, {"category": "field", "detail": "populated in 1/50 sampled rows", "feed_resource": "Property", "name": "BuyerOfficeFax", "note": "", "resource": "Property", "status": "PASS", "tier": "4"}, {"category": "field", "detail": "populated in 2/50 sampled rows", "feed_resource": "Property", "name": "BuyerOfficePhone", "note": "", "resource": "Property", "status": "PASS", "tier": "4"}, {"category": "field", "detail": "populated in 4/50 sampled rows", "feed_resource": "Property", "name": "BuyerOfficeURL", "note": "", "resource": "Property", "status": "PASS", "tier": "4"}, {"category": "field", "detail": "populated in 0/50 sampled rows", "feed_resource": "Property", "name": "CapRate", "note": "", "resource": "Property", "status": "EMPTY", "tier": "4"}, {"category": "field", "detail": "populated in 43/50 sampled rows", "feed_resource": "Property", "name": "CarportSpaces", "note": "", "resource": "Property", "status": "PASS", "tier": "4"}, {"category": "field", "detail": "populated in 0/50 sampled rows", "feed_resource": "Property", "name": "CoBuyerAgentFirstName", "note": "", "resource": "Property", "status": "EMPTY", "tier": "4"}, {"category": "field", "detail": "populated in 0/50 sampled rows", "feed_resource": "Property", "name": "CoBuyerAgentLastName", "note": "", "resource": "Property", "status": "EMPTY", "tier": "4"}, {"category": "field", "detail": "populated in 7/50 sampled rows", "feed_resource": "Property", "name": "CoListAgentDirectPhone", "note": "", "resource": "Property", "status": "PASS", "tier": "4"}, {"category": "field", "detail": "populated in 14/50 sampled rows", "feed_resource": "Property", "name": "CoListAgentFirstName", "note": "", "resource": "Property", "status": "PASS", "tier": "4"}, {"category": "field", "detail": "populated in 14/50 sampled rows", "feed_resource": "Property", "name": "CoListAgentLastName", "note": "", "resource": "Property", "status": "PASS", "tier": "4"}, {"category": "field", "detail": "populated in 9/50 sampled rows", "feed_resource": "Property", "name": "CoListAgentMobilePhone", "note": "", "resource": "Property", "status": "PASS", "tier": "4"}, {"category": "field", "detail": "populated in 3/50 sampled rows", "feed_resource": "Property", "name": "CoListAgentOfficePhone", "note": "", "resource": "Property", "status": "PASS", "tier": "4"}, {"category": "field", "detail": "populated in 3/50 sampled rows", "feed_resource": "Property", "name": "CoListOfficePhone", "note": "", "resource": "Property", "status": "PASS", "tier": "4"}, {"category": "field", "detail": "not in feed metadata", "feed_resource": "Property", "name": "CommonInterest", "note": "", "resource": "Property", "status": "FAIL", "tier": "4"}, {"category": "field", "detail": "populated in 10/50 sampled rows", "feed_resource": "Property", "name": "CrossStreet", "note": "", "resource": "Property", "status": "PASS", "tier": "4"}, {"category": "field", "detail": "not in feed metadata", "feed_resource": "Property", "name": "CurrentUse", "note": "", "resource": "Property", "status": "FAIL", "tier": "4"}, {"category": "field", "detail": "not in feed metadata", "feed_resource": "Property", "name": "Flooring", "note": "", "resource": "Property", "status": "FAIL", "tier": "4"}, {"category": "field", "detail": "not in feed metadata", "feed_resource": "Property", "name": "Furnished", "note": "", "resource": "Property", "status": "FAIL", "tier": "4"}, {"category": "field", "detail": "not in feed metadata", "feed_resource": "Property", "name": "LaundryFeatures", "note": "", "resource": "Property", "status": "FAIL", "tier": "4"}, {"category": "field", "detail": "not in feed metadata", "feed_resource": "Property", "name": "Levels", "note": "", "resource": "Property", "status": "FAIL", "tier": "4"}, {"category": "field", "detail": "populated in 4/50 sampled rows", "feed_resource": "Property", "name": "ListAgentFax", "note": "", "resource": "Property", "status": "PASS", "tier": "4"}, {"category": "field", "detail": "populated in 5/50 sampled rows", "feed_resource": "Property", "name": "ListAgentOfficePhone", "note": "", "resource": "Property", "status": "PASS", "tier": "4"}, {"category": "field", "detail": "populated in 41/50 sampled rows", "feed_resource": "Property", "name": "ListingTerms", "note": "", "resource": "Property", "status": "PASS", "tier": "4"}, {"category": "field", "detail": "populated in 15/50 sampled rows", "feed_resource": "Property", "name": "ListOfficeFax", "note": "", "resource": "Property", "status": "PASS", "tier": "4"}, {"category": "field", "detail": "populated in 2/50 sampled rows", "feed_resource": "Property", "name": "LotSizeDimensions", "note": "", "resource": "Property", "status": "PASS", "tier": "4"}, {"category": "field", "detail": "not in feed metadata", "feed_resource": "Property", "name": "MainLevelBathrooms", "note": "", "resource": "Property", "status": "FAIL", "tier": "4"}, {"category": "field", "detail": "not in feed metadata", "feed_resource": "Property", "name": "MainLevelBedrooms", "note": "", "resource": "Property", "status": "FAIL", "tier": "4"}, {"category": "field", "detail": "populated in 0/50 sampled rows", "feed_resource": "Property", "name": "NumberOfUnitsTotal", "note": "", "resource": "Property", "status": "EMPTY", "tier": "4"}, {"category": "field", "detail": "not in feed metadata", "feed_resource": "Property", "name": "NumberOfUnitsVacant", "note": "", "resource": "Property", "status": "FAIL", "tier": "4"}, {"category": "field", "detail": "populated in 12/50 sampled rows", "feed_resource": "Property", "name": "OffMarketDate", "note": "", "resource": "Property", "status": "PASS", "tier": "4"}, {"category": "field", "detail": "not in feed metadata", "feed_resource": "Property", "name": "OpenParkingSpaces", "note": "", "resource": "Property", "status": "FAIL", "tier": "4"}, {"category": "field", "detail": "populated in 50/50 sampled rows", "feed_resource": "Property", "name": "OriginalEntryTimestamp", "note": "", "resource": "Property", "status": "PASS", "tier": "4"}, {"category": "field", "detail": "not in feed metadata", "feed_resource": "Property", "name": "OwnershipType", "note": "", "resource": "Property", "status": "FAIL", "tier": "4"}, {"category": "field", "detail": "populated in 13/50 sampled rows", "feed_resource": "Property", "name": "PendingTimestamp", "note": "", "resource": "Property", "status": "PASS", "tier": "4"}, {"category": "field", "detail": "populated in 8/50 sampled rows", "feed_resource": "Property", "name": "PoolPrivateYN", "note": "", "resource": "Property", "status": "PASS", "tier": "4"}, {"category": "field", "detail": "not in feed metadata", "feed_resource": "Property", "name": "PossibleUse", "note": "", "resource": "Property", "status": "FAIL", "tier": "4"}, {"category": "field", "detail": "not in feed metadata", "feed_resource": "Property", "name": "PropertyAttachedYN", "note": "", "resource": "Property", "status": "FAIL", "tier": "4"}, {"category": "field", "detail": "populated in 10/50 sampled rows", "feed_resource": "Property", "name": "PurchaseContractDate", "note": "", "resource": "Property", "status": "PASS", "tier": "4"}, {"category": "field", "detail": "populated in 47/50 sampled rows", "feed_resource": "Property", "name": "RoomsTotal", "note": "", "resource": "Property", "status": "PASS", "tier": "4"}, {"category": "field", "detail": "not in feed metadata", "feed_resource": "Property", "name": "SeparateLivingUnitYN", "note": "", "resource": "Property", "status": "FAIL", "tier": "4"}, {"category": "field", "detail": "populated in 0/50 sampled rows", "feed_resource": "Property", "name": "SpecialListingConditions", "note": "", "resource": "Property", "status": "EMPTY", "tier": "4"}, {"category": "field", "detail": "not in feed metadata", "feed_resource": "Property", "name": "StructureType", "note": "", "resource": "Property", "status": "FAIL", "tier": "4"}, {"category": "field", "detail": "populated in 37/50 sampled rows", "feed_resource": "Property", "name": "TaxAnnualAmount", "note": "", "resource": "Property", "status": "PASS", "tier": "4"}, {"category": "field", "detail": "populated in 30/50 sampled rows", "feed_resource": "Property", "name": "TaxYear", "note": "", "resource": "Property", "status": "PASS", "tier": "4"}, {"category": "field", "detail": "populated in 12/50 sampled rows", "feed_resource": "Property", "name": "UnitNumber", "note": "", "resource": "Property", "status": "PASS", "tier": "4"}, {"category": "field", "detail": "not in feed metadata", "feed_resource": "Property", "name": "UnitTypes", "note": "", "resource": "Property", "status": "FAIL", "tier": "4"}, {"category": "field", "detail": "not in feed metadata", "feed_resource": "Property", "name": "WaterfrontYN", "note": "", "resource": "Property", "status": "FAIL", "tier": "4"}, {"category": "requirement", "detail": "verify with MLS", "feed_resource": "Member", "name": "All agents should be sent, including inactive and datashare agents", "note": "", "resource": "Agent", "status": "VERIFY", "tier": "1"}, {"category": "field", "detail": "not in feed metadata", "feed_resource": "Member", "name": "MemberDirectPhone", "note": "", "resource": "Agent", "status": "FAIL", "tier": "1"}, {"category": "field", "detail": "populated in 50/50 sampled rows", "feed_resource": "Member", "name": "MemberEmail", "note": "", "resource": "Agent", "status": "PASS", "tier": "1"}, {"category": "field", "detail": "populated in 50/50 sampled rows", "feed_resource": "Member", "name": "MemberFullName", "note": "", "resource": "Agent", "status": "PASS", "tier": "1"}, {"category": "field", "detail": "populated in 50/50 sampled rows", "feed_resource": "Member", "name": "MemberKey", "note": "", "resource": "Agent", "status": "PASS", "tier": "1"}, {"category": "field", "detail": "populated in 50/50 sampled rows", "feed_resource": "Member", "name": "MemberMlsId", "note": "", "resource": "Agent", "status": "PASS", "tier": "1"}, {"category": "field", "detail": "populated in 37/50 sampled rows", "feed_resource": "Member", "name": "MemberMobilePhone", "note": "", "resource": "Agent", "status": "PASS", "tier": "1"}, {"category": "field", "detail": "populated in 49/50 sampled rows", "feed_resource": "Member", "name": "MemberPreferredPhone", "note": "", "resource": "Agent", "status": "PASS", "tier": "1"}, {"category": "field", "detail": "populated in 48/50 sampled rows", "feed_resource": "Member", "name": "MemberStateLicense", "note": "", "resource": "Agent", "status": "PASS", "tier": "1"}, {"category": "field", "detail": "not in feed metadata", "feed_resource": "Member", "name": "MemberStateLicenseNumber", "note": "", "resource": "Agent", "status": "FAIL", "tier": "1"}, {"category": "field", "detail": "populated in 48/50 sampled rows", "feed_resource": "Member", "name": "MemberStateOrProvince", "note": "", "resource": "Agent", "status": "PASS", "tier": "1"}, {"category": "field", "detail": "populated in 50/50 sampled rows", "feed_resource": "Member", "name": "MemberStatus", "note": "", "resource": "Agent", "status": "PASS", "tier": "1"}, {"category": "field", "detail": "populated in 50/50 sampled rows", "feed_resource": "Member", "name": "ModificationTimestamp", "note": "", "resource": "Agent", "status": "PASS", "tier": "1"}, {"category": "field", "detail": "populated in 50/50 sampled rows", "feed_resource": "Member", "name": "OfficeKey", "note": "", "resource": "Agent", "status": "PASS", "tier": "1"}, {"category": "field", "detail": "populated in 50/50 sampled rows", "feed_resource": "Member", "name": "OfficeMlsId", "note": "", "resource": "Agent", "status": "PASS", "tier": "1"}, {"category": "field", "detail": "populated in 50/50 sampled rows", "feed_resource": "Member", "name": "OriginatingSystemName", "note": "", "resource": "Agent", "status": "PASS", "tier": "1"}, {"category": "field", "detail": "populated in 48/50 sampled rows", "feed_resource": "Member", "name": "MemberAddress1", "note": "", "resource": "Agent", "status": "PASS", "tier": "2"}, {"category": "field", "detail": "populated in 48/50 sampled rows", "feed_resource": "Member", "name": "MemberCity", "note": "", "resource": "Agent", "status": "PASS", "tier": "2"}, {"category": "field", "detail": "populated in 48/50 sampled rows", "feed_resource": "Member", "name": "MemberPostalCode", "note": "", "resource": "Agent", "status": "PASS", "tier": "2"}, {"category": "field", "detail": "populated in 3/50 sampled rows", "feed_resource": "Member", "name": "MemberAddress2", "note": "", "resource": "Agent", "status": "PASS", "tier": "3"}, {"category": "field", "detail": "populated in 50/50 sampled rows", "feed_resource": "Member", "name": "MemberFirstName", "note": "", "resource": "Agent", "status": "PASS", "tier": "3"}, {"category": "field", "detail": "not in feed metadata", "feed_resource": "Member", "name": "MemberHomePhone", "note": "", "resource": "Agent", "status": "FAIL", "tier": "3"}, {"category": "field", "detail": "populated in 49/50 sampled rows", "feed_resource": "Member", "name": "MemberLastName", "note": "", "resource": "Agent", "status": "PASS", "tier": "3"}, {"category": "field", "detail": "populated in 0/50 sampled rows", "feed_resource": "Member", "name": "MemberLoginId", "note": "", "resource": "Agent", "status": "EMPTY", "tier": "3"}, {"category": "field", "detail": "not in feed metadata", "feed_resource": "Member", "name": "JobTitle", "note": "", "resource": "Agent", "status": "FAIL", "tier": "4"}, {"category": "field", "detail": "populated in 29/50 sampled rows", "feed_resource": "Member", "name": "MemberNickname", "note": "", "resource": "Agent", "status": "PASS", "tier": "4"}, {"category": "requirement", "detail": "verify with MLS", "feed_resource": "Office", "name": "All offices should be sent, including inactive and datashare offices", "note": "", "resource": "Office", "status": "VERIFY", "tier": "1"}, {"category": "field", "detail": "populated in 50/50 sampled rows", "feed_resource": "Office", "name": "MainOfficeKey", "note": "", "resource": "Office", "status": "PASS", "tier": "1"}, {"category": "field", "detail": "populated in 50/50 sampled rows", "feed_resource": "Office", "name": "ModificationTimestamp", "note": "", "resource": "Office", "status": "PASS", "tier": "1"}, {"category": "field", "detail": "populated in 49/50 sampled rows", "feed_resource": "Office", "name": "OfficeAddress1", "note": "", "resource": "Office", "status": "PASS", "tier": "1"}, {"category": "field", "detail": "populated in 49/50 sampled rows", "feed_resource": "Office", "name": "OfficeCity", "note": "", "resource": "Office", "status": "PASS", "tier": "1"}, {"category": "field", "detail": "populated in 50/50 sampled rows", "feed_resource": "Office", "name": "OfficeEmail", "note": "", "resource": "Office", "status": "PASS", "tier": "1"}, {"category": "field", "detail": "populated in 50/50 sampled rows", "feed_resource": "Office", "name": "OfficeKey", "note": "", "resource": "Office", "status": "PASS", "tier": "1"}, {"category": "field", "detail": "populated in 50/50 sampled rows", "feed_resource": "Office", "name": "OfficeMlsId", "note": "", "resource": "Office", "status": "PASS", "tier": "1"}, {"category": "field", "detail": "populated in 50/50 sampled rows", "feed_resource": "Office", "name": "OfficeName", "note": "", "resource": "Office", "status": "PASS", "tier": "1"}, {"category": "field", "detail": "populated in 49/50 sampled rows", "feed_resource": "Office", "name": "OfficePhone", "note": "", "resource": "Office", "status": "PASS", "tier": "1"}, {"category": "field", "detail": "populated in 49/50 sampled rows", "feed_resource": "Office", "name": "OfficePostalCode", "note": "", "resource": "Office", "status": "PASS", "tier": "1"}, {"category": "field", "detail": "populated in 49/50 sampled rows", "feed_resource": "Office", "name": "OfficeStateOrProvince", "note": "", "resource": "Office", "status": "PASS", "tier": "1"}, {"category": "field", "detail": "populated in 50/50 sampled rows", "feed_resource": "Office", "name": "OfficeStatus", "note": "", "resource": "Office", "status": "PASS", "tier": "1"}, {"category": "field", "detail": "populated in 50/50 sampled rows", "feed_resource": "Office", "name": "OriginatingSystemName", "note": "", "resource": "Office", "status": "PASS", "tier": "1"}, {"category": "field", "detail": "populated in 8/50 sampled rows", "feed_resource": "Office", "name": "OfficeAddress2", "note": "", "resource": "Office", "status": "PASS", "tier": "3"}, {"category": "field", "detail": "populated in 45/50 sampled rows", "feed_resource": "Office", "name": "OfficeBrokerKey", "note": "", "resource": "Office", "status": "PASS", "tier": "3"}, {"category": "requirement", "detail": "verify with MLS", "feed_resource": "OpenHouse", "name": "MLS must send Broker Tours / Agent-Only Open Houses and direct us to where they live", "note": "", "resource": "OpenHouse", "status": "VERIFY", "tier": "1"}, {"category": "field", "detail": "populated in 50/50 sampled rows", "feed_resource": "OpenHouse", "name": "ListingKey", "note": "", "resource": "OpenHouse", "status": "PASS", "tier": "1"}, {"category": "field", "detail": "not in feed metadata", "feed_resource": "OpenHouse", "name": "ListingKeyNumeric", "note": "", "resource": "OpenHouse", "status": "FAIL", "tier": "1"}, {"category": "field", "detail": "not in feed metadata", "feed_resource": "OpenHouse", "name": "ListingId", "note": "", "resource": "OpenHouse", "status": "FAIL", "tier": "1"}, {"category": "field", "detail": "populated in 50/50 sampled rows", "feed_resource": "OpenHouse", "name": "OpenHouseStartTime", "note": "", "resource": "OpenHouse", "status": "PASS", "tier": "1"}, {"category": "field", "detail": "populated in 50/50 sampled rows", "feed_resource": "OpenHouse", "name": "OpenHouseEndTime", "note": "", "resource": "OpenHouse", "status": "PASS", "tier": "1"}, {"category": "field", "detail": "populated in 50/50 sampled rows", "feed_resource": "OpenHouse", "name": "OpenHouseKey", "note": "", "resource": "OpenHouse", "status": "PASS", "tier": "1"}, {"category": "field", "detail": "populated in 6/50 sampled rows", "feed_resource": "OpenHouse", "name": "OpenHouseRemarks", "note": "", "resource": "OpenHouse", "status": "PASS", "tier": "1"}, {"category": "field", "detail": "populated in 50/50 sampled rows", "feed_resource": "OpenHouse", "name": "OpenHouseType", "note": "", "resource": "OpenHouse", "status": "PASS", "tier": "1"}, {"category": "requirement", "detail": "documents located in feed, verify captions/coverage", "feed_resource": "Media", "name": "Confidential Documents must be in feed \u2014 direct us to where they live", "note": "", "resource": "Media", "status": "PASS", "tier": "1"}, {"category": "requirement", "detail": "verify with MLS", "feed_resource": "Media", "name": "MediaStatus required if MLS uses \"private\" media status or similar access control", "note": "", "resource": "Media", "status": "VERIFY", "tier": "1"}, {"category": "field", "detail": "populated in 2368/2368 sampled rows", "feed_resource": "Media", "name": "MediaKey", "note": "", "resource": "Media", "status": "PASS", "tier": "1"}, {"category": "field", "detail": "populated in 2363/2368 sampled rows", "feed_resource": "Media", "name": "MediaURL", "note": "", "resource": "Media", "status": "PASS", "tier": "1"}, {"category": "field", "detail": "populated in 2368/2368 sampled rows", "feed_resource": "Media", "name": "Order", "note": "", "resource": "Media", "status": "PASS", "tier": "1"}, {"category": "field", "detail": "populated in 251/2368 sampled rows", "feed_resource": "Media", "name": "LongDescription", "note": "", "resource": "Media", "status": "PASS", "tier": "1"}, {"category": "field", "detail": "populated in 2350/2368 sampled rows", "feed_resource": "Media", "name": "ShortDescription", "note": "", "resource": "Media", "status": "PASS", "tier": "1"}, {"category": "field", "detail": "populated in 2368/2368 sampled rows", "feed_resource": "Media", "name": "MediaCategory", "note": "", "resource": "Media", "status": "PASS", "tier": "1"}, {"category": "field", "detail": "not in feed metadata", "feed_resource": "Media", "name": "MediaModificationTimestamp", "note": "", "resource": "Media", "status": "FAIL", "tier": "1"}, {"category": "field", "detail": "not in feed metadata", "feed_resource": "Media", "name": "ModificationTimestamp", "note": "", "resource": "Media", "status": "FAIL", "tier": "1"}], "listhub": [{"category": "requirement", "detail": "4028 matching records (live query)", "feed_resource": "Property", "name": "Active Listings Count", "note": "", "resource": "Property", "status": "COUNT", "tier": "Key Data Point"}, {"category": "requirement", "detail": "700 matching records (live query)", "feed_resource": "Property", "name": "Pending Listings Count", "note": "", "resource": "Property", "status": "COUNT", "tier": "Key Data Point"}, {"category": "requirement", "detail": "119495 matching records (live query)", "feed_resource": "Property", "name": "Sold Listings Count", "note": "", "resource": "Property", "status": "COUNT", "tier": "Key Data Point"}, {"category": "requirement", "detail": "4187 matching records (live query)", "feed_resource": "Property", "name": "Rental Count", "note": "", "resource": "Property", "status": "COUNT", "tier": "Key Data Point"}, {"category": "requirement", "detail": "58894 matching records (live query)", "feed_resource": "Property", "name": "Land Count", "note": "", "resource": "Property", "status": "COUNT", "tier": "Key Data Point"}, {"category": "requirement", "detail": "StandardStatus lookup declares ActiveUnderContract, Active Under Contract (RESO Lookup resource)", "feed_resource": "Property", "name": "Contingent Status (Y/N)", "note": "", "resource": "Property", "status": "PASS", "tier": "Key Data Point"}, {"category": "requirement", "detail": "SpecialListingConditions lookup declares Real Estate Owned (RESO Lookup resource)", "feed_resource": "Property", "name": "Foreclosure Badge (Y/N)", "note": "", "resource": "Property", "status": "PASS", "tier": "Key Data Point"}, {"category": "requirement", "detail": "SpecialListingConditions present but its Lookup has no Short Sale/ShortSale value", "feed_resource": "Property", "name": "Short Sale (Y/N)", "note": "", "resource": "Property", "status": "FAIL", "tier": "Key Data Point"}, {"category": "requirement", "detail": "RoomArea, RoomWidth, RoomLength present in Room metadata", "feed_resource": "Property", "name": "Room Dimensions (Y/N)", "note": "", "resource": "Property", "status": "PASS", "tier": "Key Data Point"}, {"category": "requirement", "detail": "RoomLevel, RoomType present in Room metadata", "feed_resource": "Property", "name": "Room Location (Y/N)", "note": "", "resource": "Property", "status": "PASS", "tier": "Key Data Point"}, {"category": "requirement", "detail": "verify with MLS", "feed_resource": "Property", "name": "Bedroom Features (Y/N)", "note": "", "resource": "Property", "status": "VERIFY", "tier": "Key Data Point"}, {"category": "requirement", "detail": "StandardStatus lookup declares ComingSoon, Coming Soon (RESO Lookup resource); live count not trustworthy (feed ignored $filter (returned the unfiltered total 223720); count not trustworthy \u2014 confirm in warehouse)", "feed_resource": "Property", "name": "Coming Soon Status (Y/N)", "note": "", "resource": "Property", "status": "PASS", "tier": "Key Data Point"}, {"category": "field", "detail": "populated in 6/50 sampled rows", "feed_resource": "Property", "name": "ClosePrice", "note": "", "resource": "Property", "status": "PASS", "tier": "1"}, {"category": "field", "detail": "populated in 6/50 sampled rows", "feed_resource": "Property", "name": "CloseDate", "note": "", "resource": "Property", "status": "PASS", "tier": "1"}, {"category": "field", "detail": "populated in 50/50 sampled rows", "feed_resource": "Property", "name": "InternetAddressDisplayYN", "note": "", "resource": "Property", "status": "PASS", "tier": "1"}, {"category": "field", "detail": "populated in 50/50 sampled rows", "feed_resource": "Property", "name": "PublicRemarks", "note": "", "resource": "Property", "status": "PASS", "tier": "1"}, {"category": "field", "detail": "populated in 6/50 sampled rows", "feed_resource": "Property", "name": "BuyerAgentKey", "note": "", "resource": "Property", "status": "PASS", "tier": "1"}, {"category": "field", "detail": "populated in 13/50 sampled rows", "feed_resource": "Property", "name": "VirtualTourURLUnbranded", "note": "", "resource": "Property", "status": "PASS", "tier": "1"}, {"category": "field", "detail": "populated in 42/50 sampled rows", "feed_resource": "Property", "name": "NewConstructionYN", "note": "", "resource": "Property", "status": "PASS", "tier": "1"}, {"category": "field", "detail": "populated in 43/50 sampled rows", "feed_resource": "Property", "name": "AssociationFee", "note": "", "resource": "Property", "status": "PASS", "tier": "1"}, {"category": "field", "detail": "populated in 2/50 sampled rows", "feed_resource": "Property", "name": "AssociationAmenities", "note": "", "resource": "Property", "status": "PASS", "tier": "1"}, {"category": "requirement", "detail": "2928 matching records (live query)", "feed_resource": "Member", "name": "Agent Count", "note": "", "resource": "Agent", "status": "COUNT", "tier": "Key Data Point"}, {"category": "requirement", "detail": "563 matching records (live query)", "feed_resource": "Office", "name": "Office Count", "note": "", "resource": "Office", "status": "COUNT", "tier": "Key Data Point"}, {"category": "requirement", "detail": "303 matching records (live query)", "feed_resource": "OpenHouse", "name": "Open House Count", "note": "", "resource": "OpenHouse", "status": "COUNT", "tier": "Key Data Point"}, {"category": "requirement", "detail": "OpenHouseType lookup declares Livestream (as \u0027livestreambroker\u0027), Live Stream (as \u0027livestreambroker\u0027) (RESO Lookup resource)", "feed_resource": "OpenHouse", "name": "Livestream Open House (Y/N)", "note": "", "resource": "OpenHouse", "status": "PASS", "tier": "Key Data Point"}, {"category": "field", "detail": "populated in 50/50 sampled rows", "feed_resource": "OpenHouse", "name": "OpenHouseKey", "note": "", "resource": "OpenHouse", "status": "PASS", "tier": "1"}]}</script>
+
+</main>
+
+<script>
+/* Table + tabs (same logic as the live app report) */
+(function () {
+  const raw = JSON.parse(document.getElementById('audit-data').textContent);
+  const STATE = { tab: 'galaxy', status: new Set(), resource: new Set(), query: '', sortKey: null, sortDir: 1 };
+  const STATUS_ORDER = ['FAIL','EMPTY','VERIFY','COUNT','PASS'];
+  const STATUS_ICONS = {
+    PASS:   '<svg width="10" height="10" viewBox="0 0 10 10"><path d="M1.5 5.2 L4 7.5 L8.5 2.5" stroke="currentColor" stroke-width="1.7" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+    FAIL:   '<svg width="10" height="10" viewBox="0 0 10 10"><path d="M2 2 L8 8 M8 2 L2 8" stroke="currentColor" stroke-width="1.7" fill="none" stroke-linecap="round"/></svg>',
+    EMPTY:  '<svg width="10" height="10" viewBox="0 0 10 10"><circle cx="5" cy="5" r="3.4" stroke="currentColor" stroke-width="1.4" fill="none"/></svg>',
+    VERIFY: '<svg width="10" height="10" viewBox="0 0 10 10"><path d="M5 1.5 A3.5 3.5 0 1 1 2.5 4.5" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/><circle cx="5" cy="8" r="0.8" fill="currentColor"/></svg>',
+    COUNT:  '<svg width="10" height="10" viewBox="0 0 10 10"><rect x="1.5" y="6" width="1.6" height="2.5" fill="currentColor"/><rect x="4.2" y="3.5" width="1.6" height="5" fill="currentColor"/><rect x="6.9" y="1.5" width="1.6" height="7" fill="currentColor"/></svg>',
+  };
+  const $ = (s,r) => (r||document).querySelector(s);
+  const $$ = (s,r) => Array.from((r||document).querySelectorAll(s));
+  function rows() { return raw[STATE.tab] || []; }
+  function counts(rs, key) { const c={}; rs.forEach(r => { c[r[key]] = (c[r[key]]||0)+1; }); return c; }
+  function statusVar(s) { return {PASS:'good',FAIL:'critical',EMPTY:'warning',VERIFY:'serious',COUNT:'info'}[s] || 'text-muted'; }
+  function statusPill(s) {
+    return `<span class="status-pill status-${s}"><span class="icon" aria-hidden="true">${STATUS_ICONS[s]||''}</span>${s}</span>`;
+  }
+  function tierVal(t) { const n=parseInt(t,10); return isNaN(n)?99:n; }
+  function escHtml(s) { return String(s==null?'':s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+  function renderFilterChips() {
+    const rs = rows();
+    const sc = counts(rs, 'status');
+    const rc = counts(rs, 'resource');
+    const sEl = $('#status-filters'); sEl.innerHTML = '';
+    STATUS_ORDER.filter(s => sc[s]).forEach(s => {
+      const b = document.createElement('button');
+      b.className = 'filter-chip' + (STATE.status.has(s) ? ' is-active' : '');
+      b.innerHTML = `<span class="swatch" style="background: var(--${statusVar(s)})"></span>${s} <span class="n">${sc[s]}</span>`;
+      b.onclick = () => { STATE.status.has(s)?STATE.status.delete(s):STATE.status.add(s); renderFilterChips(); renderTable(); };
+      sEl.appendChild(b);
+    });
+    const rEl = $('#resource-filters'); rEl.innerHTML = '';
+    Object.keys(rc).sort().forEach(r => {
+      const b = document.createElement('button');
+      b.className = 'filter-chip' + (STATE.resource.has(r) ? ' is-active' : '');
+      b.innerHTML = `${r} <span class="n">${rc[r]}</span>`;
+      b.onclick = () => { STATE.resource.has(r)?STATE.resource.delete(r):STATE.resource.add(r); renderFilterChips(); renderTable(); };
+      rEl.appendChild(b);
+    });
+  }
+  function filterRows() {
+    const q = STATE.query.trim().toLowerCase();
+    return rows().filter(r => {
+      if (STATE.status.size && !STATE.status.has(r.status)) return false;
+      if (STATE.resource.size && !STATE.resource.has(r.resource)) return false;
+      if (q) {
+        const hay = (r.name+' '+r.detail+' '+r.resource+' '+r.category).toLowerCase();
+        if (!hay.includes(q)) return false;
+      }
+      return true;
+    });
+  }
+  function sortRows(rs) {
+    if (!STATE.sortKey) return rs;
+    const k = STATE.sortKey, d = STATE.sortDir;
+    return rs.slice().sort((a,b) => {
+      let av=a[k], bv=b[k];
+      if (k==='tier') { av=tierVal(av); bv=tierVal(bv); }
+      if (k==='status') { av=STATUS_ORDER.indexOf(av); bv=STATUS_ORDER.indexOf(bv); }
+      if (av<bv) return -1*d; if (av>bv) return 1*d; return 0;
+    });
+  }
+  function renderTable() {
+    const tbody = $('#findings-body');
+    const rs = sortRows(filterRows());
+    if (!rs.length) { tbody.innerHTML = '<tr><td colspan="6" class="empty-note">No rows match the current filters.</td></tr>'; return; }
+    tbody.innerHTML = rs.map(r => {
+      const tier = String(r.tier||'').trim();
+      const tierDisplay = tier.match(/^\d+$/) ? `T${tier}` : tier;
+      return `<tr>
+        <td>${escHtml(r.resource)}</td>
+        <td class="tier"><span class="tier-pill" data-tier="${escHtml(tier)}">${escHtml(tierDisplay)}</span></td>
+        <td>${escHtml(r.category)}</td>
+        <td class="name">${escHtml(r.name)}</td>
+        <td class="status-cell">${statusPill(r.status)}</td>
+        <td class="detail">${escHtml(r.detail||'')}${r.note ? '<br><em style="color:var(--text-muted)">'+escHtml(r.note)+'</em>' : ''}</td>
+      </tr>`;
+    }).join('');
+    $$('thead th').forEach(th => {
+      const key = th.dataset.sort;
+      th.classList.toggle('is-sorted', key === STATE.sortKey);
+      const arr = th.querySelector('.sort-arrow');
+      if (arr) arr.textContent = key === STATE.sortKey ? (STATE.sortDir===1?'↑':'↓') : '↕';
+    });
+  }
+  $$('.tab').forEach(b => b.onclick = () => {
+    STATE.tab = b.dataset.tab; STATE.status.clear(); STATE.resource.clear(); STATE.sortKey = null;
+    $$('.tab').forEach(t => { const on = t===b; t.classList.toggle('is-active', on); t.setAttribute('aria-selected', on?'true':'false'); });
+    renderFilterChips(); renderTable();
+  });
+  $$('thead th').forEach(th => th.onclick = () => {
+    const k = th.dataset.sort;
+    if (STATE.sortKey === k) STATE.sortDir *= -1; else { STATE.sortKey = k; STATE.sortDir = 1; }
+    renderTable();
+  });
+  $('#search').oninput = e => { STATE.query = e.target.value; renderTable(); };
+  renderFilterChips();
+  renderTable();
+})();
+</script>
+</body>
+</html>
