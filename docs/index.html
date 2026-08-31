@@ -1,0 +1,352 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>MLS Audit Reports</title>
+<link rel="stylesheet" href="styles.css" />
+<style>
+  .empty-hero {
+    text-align: center;
+    padding: 80px 20px;
+    color: var(--text-muted);
+  }
+  .empty-hero h2 { color: var(--text); margin-bottom: 8px; }
+  .empty-hero code { background: var(--surface-1); padding: 2px 6px; border-radius: 4px; font-size: 12px; }
+  .dashboard-stats {
+    display: flex;
+    gap: 24px;
+    margin: 6px 0 18px;
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+  .dashboard-stats strong { color: var(--text); font-variant-numeric: tabular-nums; }
+  .filter-bar {
+    background: var(--surface, #12141a);
+    border: 1px solid var(--border, #262a33);
+    border-radius: 10px;
+    padding: 12px 14px;
+    margin: 0 0 20px;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+  .filter-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+  }
+  .filter-row .filter-label {
+    font-size: 11px;
+    color: var(--text-muted);
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    margin-right: 4px;
+    min-width: 60px;
+  }
+  .filter-row .filter-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    flex: 1;
+  }
+  .filter-row .search {
+    background: var(--surface-1, #1a1d24);
+    border: 1px solid var(--border, #262a33);
+    color: var(--text);
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-size: 12.5px;
+    min-width: 200px;
+    outline: none;
+  }
+  .filter-row .search:focus { border-color: var(--info, #4b9df9); }
+  .card-owner {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 11.5px;
+    color: var(--text-muted);
+    padding: 1px 8px;
+    border-radius: 999px;
+    background: var(--surface-1, #1a1d24);
+    border: 1px solid var(--border, #262a33);
+  }
+  .card-verdict-ready { color: var(--good, #3fb27f); }
+  .card-verdict-not_ready { color: var(--critical, #e5484d); }
+  .card-verdict-error { color: var(--warning, #f5a623); }
+  .card-run-badge {
+    display: inline-block;
+    font-size: 10.5px;
+    padding: 1px 6px;
+    border-radius: 999px;
+    background: var(--surface-1, #1a1d24);
+    color: var(--text-muted);
+    border: 1px solid var(--border, #262a33);
+    margin-left: 6px;
+    font-variant-numeric: tabular-nums;
+  }
+  .empty-note {
+    padding: 40px 20px;
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 13px;
+  }
+</style>
+</head>
+<body>
+<nav class="topbar">
+  <div class="inner">
+    <div class="brand">
+      <span class="dot" aria-hidden="true"></span>
+      <a href="./">MLS Audit Reports</a>
+    </div>
+    <div style="font-size: 12px; color: var(--text-muted);">
+      historical launch-readiness audits
+    </div>
+  </div>
+</nav>
+
+<main class="page">
+  <div class="dashboard-header">
+    <div>
+      <div class="eyebrow">Dashboard</div>
+      <h1>MLS Audit Reports</h1>
+      <div class="dashboard-stats" id="dashboard-stats">Loading…</div>
+    </div>
+  </div>
+
+  <div class="filter-bar" id="filter-bar" style="display:none;">
+    <div class="filter-row">
+      <span class="filter-label">MLS</span>
+      <div class="filter-group" id="mls-filters"></div>
+    </div>
+    <div class="filter-row">
+      <span class="filter-label">Verdict</span>
+      <div class="filter-group" id="verdict-filters"></div>
+    </div>
+    <div class="filter-row">
+      <span class="filter-label">Owner</span>
+      <div class="filter-group" id="owner-filters"></div>
+    </div>
+    <div class="filter-row">
+      <span class="filter-label">Time</span>
+      <div class="filter-group" id="time-filters"></div>
+      <input type="search" class="search" id="search" placeholder="Search MLS name or feed URL…" />
+    </div>
+  </div>
+
+  <div class="audit-grid" id="reports-grid">
+    <div class="empty-hero" id="loading-hero">
+      <h2>Loading manifest…</h2>
+    </div>
+  </div>
+</main>
+
+<script>
+(function () {
+  const $ = (s) => document.querySelector(s);
+  const $$ = (s) => Array.from(document.querySelectorAll(s));
+
+  const STATE = {
+    all: [],
+    mls: new Set(),
+    verdict: new Set(),
+    owner: new Set(),
+    time: 'all',
+    query: '',
+  };
+
+  const TIME_WINDOWS = [
+    { key: 'all',   label: 'All time', ms: null },
+    { key: '90d',   label: '90 days',  ms: 90 * 86400000 },
+    { key: '30d',   label: '30 days',  ms: 30 * 86400000 },
+    { key: '7d',    label: '7 days',   ms: 7  * 86400000 },
+  ];
+
+  const VERDICT_LABELS = {
+    ready:     'Launch-ready',
+    not_ready: 'T1 gaps',
+    error:     'Run errored',
+  };
+
+  function esc(s) {
+    return String(s == null ? '' : s).replace(/[&<>"']/g, c =>
+      ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  }
+
+  function fmtDate(iso) {
+    try {
+      const d = new Date(iso);
+      const dd = d.toLocaleDateString('en-CA');
+      const tt = d.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false });
+      return dd + ' · ' + tt;
+    } catch (e) { return iso; }
+  }
+
+  function verdictClass(v) {
+    return 'card-verdict-' + (v || 'error');
+  }
+
+  function statusPillLabel(entry) {
+    if (entry.verdict === 'ready')     return 'Launch-ready';
+    if (entry.verdict === 'not_ready') return (entry.t1_fail || 0) + ' T1 gap' + ((entry.t1_fail === 1) ? '' : 's');
+    if (entry.verdict === 'error')     return 'Errored';
+    return 'Unknown';
+  }
+
+  function statusPillClass(v) {
+    if (v === 'ready')     return 'status-ok';
+    if (v === 'not_ready') return 'status-gaps';
+    return 'status-err';
+  }
+
+  function countPerMLS(entries) {
+    const c = {};
+    entries.forEach(e => { c[e.slug] = (c[e.slug] || 0) + 1; });
+    return c;
+  }
+
+  function counts(entries, key) {
+    const c = {};
+    entries.forEach(e => {
+      const v = key === 'owner' ? (e.owner && e.owner.name) : e[key];
+      if (!v) return;
+      c[v] = (c[v] || 0) + 1;
+    });
+    return c;
+  }
+
+  function renderChips(elId, values, activeSet, colorFn) {
+    const el = $(elId);
+    el.innerHTML = '';
+    Object.keys(values).sort((a,b) => values[b] - values[a]).forEach(v => {
+      const b = document.createElement('button');
+      b.className = 'filter-chip' + (activeSet.has(v) ? ' is-active' : '');
+      if (colorFn) {
+        b.innerHTML = `<span class="swatch" style="background:var(${colorFn(v)})"></span>${esc(v)} <span class="n">${values[v]}</span>`;
+      } else {
+        b.innerHTML = `${esc(v)} <span class="n">${values[v]}</span>`;
+      }
+      b.onclick = () => {
+        activeSet.has(v) ? activeSet.delete(v) : activeSet.add(v);
+        render();
+      };
+      el.appendChild(b);
+    });
+  }
+
+  function renderTimeChips() {
+    const el = $('#time-filters');
+    el.innerHTML = '';
+    TIME_WINDOWS.forEach(w => {
+      const b = document.createElement('button');
+      b.className = 'filter-chip' + (STATE.time === w.key ? ' is-active' : '');
+      b.textContent = w.label;
+      b.onclick = () => { STATE.time = w.key; render(); };
+      el.appendChild(b);
+    });
+  }
+
+  function filterEntries() {
+    const q = STATE.query.trim().toLowerCase();
+    const window = TIME_WINDOWS.find(w => w.key === STATE.time);
+    const cutoff = window && window.ms ? (Date.now() - window.ms) : null;
+    return STATE.all.filter(e => {
+      if (STATE.mls.size && !STATE.mls.has(e.slug)) return false;
+      if (STATE.verdict.size && !STATE.verdict.has(e.verdict)) return false;
+      if (STATE.owner.size && !STATE.owner.has(e.owner && e.owner.name)) return false;
+      if (cutoff) {
+        const t = Date.parse(e.generated_at);
+        if (isFinite(t) && t < cutoff) return false;
+      }
+      if (q) {
+        const hay = ((e.name || '') + ' ' + (e.feed_url || '')).toLowerCase();
+        if (!hay.includes(q)) return false;
+      }
+      return true;
+    });
+  }
+
+  function cardHtml(e) {
+    const runsForMls = STATE.all.filter(x => x.slug === e.slug).length;
+    const runBadge = runsForMls > 1
+      ? `<span class="card-run-badge" title="${runsForMls} runs for this MLS">${runsForMls}× runs</span>`
+      : '';
+    const owner = (e.owner && e.owner.name) ? e.owner.name : 'unknown';
+    return `
+      <a class="audit-card" href="${esc(e.path)}">
+        <div class="name">
+          ${esc(e.name)}
+          ${runBadge}
+          <span class="status-pill ${statusPillClass(e.verdict)}">${esc(statusPillLabel(e))}</span>
+        </div>
+        <div class="url">${esc(e.feed_url || '')}</div>
+        <div class="meta-row">
+          <span class="chip">${esc(e.slug)}</span>
+          <span class="card-owner">${esc(owner)}</span>
+          <span style="font-size: 11.5px; color: var(--text-muted); font-variant-numeric: tabular-nums;">
+            ${esc(fmtDate(e.generated_at))}
+          </span>
+        </div>
+      </a>
+    `;
+  }
+
+  function render() {
+    const filtered = filterEntries();
+    // Sort by generated_at desc
+    filtered.sort((a,b) => (Date.parse(b.generated_at) || 0) - (Date.parse(a.generated_at) || 0));
+    const grid = $('#reports-grid');
+    if (!filtered.length) {
+      grid.innerHTML = `<div class="empty-note">No reports match the current filters.</div>`;
+    } else {
+      grid.innerHTML = filtered.map(cardHtml).join('');
+    }
+    // Refresh chip counts against the FULL set, not the filtered one — filters
+    // are additive and users need to see what other options exist.
+    renderChips('#mls-filters',     counts(STATE.all, 'slug'),    STATE.mls);
+    renderChips('#verdict-filters', counts(STATE.all, 'verdict'), STATE.verdict);
+    renderChips('#owner-filters',   counts(STATE.all, 'owner'),   STATE.owner);
+    renderTimeChips();
+
+    const uniqueMls = new Set(STATE.all.map(e => e.slug)).size;
+    $('#dashboard-stats').innerHTML =
+      `<span><strong>${STATE.all.length}</strong> total runs</span>` +
+      `<span><strong>${uniqueMls}</strong> unique MLS${uniqueMls === 1 ? '' : 'es'}</span>` +
+      `<span><strong>${filtered.length}</strong> visible</span>`;
+  }
+
+  function bootstrapEmpty() {
+    $('#reports-grid').innerHTML = `
+      <div class="empty-hero">
+        <h2>No reports yet</h2>
+        <p>Reports get published here when someone runs the local MLS audit app and hits <strong>Publish</strong>.</p>
+        <p style="margin-top: 12px;">
+          Get the app from the private repo:
+          <code>ivancantucantucontractor-lang/mls-audit-app</code>
+        </p>
+      </div>`;
+    $('#dashboard-stats').textContent = 'No runs published yet.';
+  }
+
+  fetch('manifest.json', { cache: 'no-store' })
+    .then(r => r.json())
+    .then(data => {
+      STATE.all = Array.isArray(data) ? data : [];
+      if (!STATE.all.length) {
+        bootstrapEmpty();
+        return;
+      }
+      $('#filter-bar').style.display = '';
+      $('#search').addEventListener('input', e => { STATE.query = e.target.value; render(); });
+      render();
+    })
+    .catch(err => {
+      $('#reports-grid').innerHTML = `<div class="empty-note">Failed to load manifest: ${esc(err.message || err)}</div>`;
+    });
+})();
+</script>
+</body>
+</html>

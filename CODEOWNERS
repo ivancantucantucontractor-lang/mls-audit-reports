@@ -1,0 +1,10 @@
+# CODEOWNERS for mls-audit-reports
+#
+# The dashboard and its scaffolding are code-reviewed; published report
+# content under docs/reports/ arrives via the Publish flow and doesn't
+# require review.
+
+/docs/index.html    @ivancantucantu
+/docs/styles.css    @ivancantucantu
+/README.md          @ivancantucantu
+/CODEOWNERS         @ivancantucantu
