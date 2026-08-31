@@ -1,9 +1,12 @@
 <!doctype html>
-<html lang="en" data-theme="dark">
+<html lang="en">
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>MLS Audit Reports</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap">
 <link rel="stylesheet" href="styles.css" />
 <style>
   .empty-hero {
@@ -22,8 +25,8 @@
   }
   .dashboard-stats strong { color: var(--text); font-variant-numeric: tabular-nums; }
   .filter-bar {
-    background: var(--surface, #12141a);
-    border: 1px solid var(--border, #262a33);
+    background: var(--surface-1, #ffffff);
+    border: 1px solid var(--border, #E9E7E4);
     border-radius: 10px;
     padding: 12px 14px;
     margin: 0 0 20px;
@@ -52,8 +55,8 @@
     flex: 1;
   }
   .filter-row .search {
-    background: var(--surface-1, #1a1d24);
-    border: 1px solid var(--border, #262a33);
+    background: var(--surface-1, #ffffff);
+    border: 1px solid var(--border, #E9E7E4);
     color: var(--text);
     padding: 6px 10px;
     border-radius: 6px;
@@ -61,7 +64,7 @@
     min-width: 200px;
     outline: none;
   }
-  .filter-row .search:focus { border-color: var(--info, #4b9df9); }
+  .filter-row .search:focus { border-color: var(--rdc-blue, #0D74CE); }
   .card-owner {
     display: inline-flex;
     align-items: center;
@@ -70,20 +73,20 @@
     color: var(--text-muted);
     padding: 1px 8px;
     border-radius: 999px;
-    background: var(--surface-1, #1a1d24);
-    border: 1px solid var(--border, #262a33);
+    background: var(--surface-1, #ffffff);
+    border: 1px solid var(--border, #E9E7E4);
   }
-  .card-verdict-ready { color: var(--good, #3fb27f); }
-  .card-verdict-not_ready { color: var(--critical, #e5484d); }
-  .card-verdict-error { color: var(--warning, #f5a623); }
+  .card-verdict-ready { color: var(--rdc-teal, #008583); }
+  .card-verdict-not_ready { color: var(--rdc-red-600, #D92228); }
+  .card-verdict-error { color: var(--rdc-orange, #CC4E00); }
   .card-run-badge {
     display: inline-block;
     font-size: 10.5px;
     padding: 1px 6px;
     border-radius: 999px;
-    background: var(--surface-1, #1a1d24);
+    background: var(--surface-1, #ffffff);
     color: var(--text-muted);
-    border: 1px solid var(--border, #262a33);
+    border: 1px solid var(--border, #E9E7E4);
     margin-left: 6px;
     font-variant-numeric: tabular-nums;
   }
