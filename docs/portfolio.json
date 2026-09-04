@@ -1,0 +1,300 @@
+{
+  "metadata": {
+    "title": "MLS Audit Portfolio",
+    "subtitle": "Launch-readiness across every MLS feed the team has audited",
+    "as_of": "2026-09-04",
+    "generated_at": "2026-09-04T16:14:21+00:00",
+    "workbook_stale": false,
+    "workbook_prev_asof": null,
+    "source_manifest": "manifest.json"
+  },
+  "narrative": "4 audit runs across 1 MLS. 0 currently launch-ready, 1 with Tier-1 gaps, 0 errored. Median field pass rate: 70.6%. Most common blocker: BathroomsFull on Property (1 feed affected).",
+  "kpis": [
+    {
+      "id": "kpi-audits",
+      "label": "Total audits",
+      "value": "4",
+      "sub": "across 1 MLSs",
+      "cite": "manifest"
+    },
+    {
+      "id": "kpi-ready",
+      "label": "Launch-ready feeds",
+      "value": "0",
+      "sub": "latest run per MLS",
+      "cite": "verdict_calc"
+    },
+    {
+      "id": "kpi-t1",
+      "label": "Feeds with T1 gaps",
+      "value": "1",
+      "sub": "blocking launch",
+      "cite": "verdict_calc"
+    },
+    {
+      "id": "kpi-errored",
+      "label": "Errored runs",
+      "value": "0",
+      "sub": "connection or auth failures",
+      "cite": "verdict_calc"
+    },
+    {
+      "id": "kpi-owners",
+      "label": "Auditors active",
+      "value": "1",
+      "sub": "contributors on the manifest",
+      "cite": "manifest"
+    },
+    {
+      "id": "kpi-passrate",
+      "label": "Median pass rate",
+      "value": "70.6%",
+      "sub": "across latest runs",
+      "cite": "rollup_calc"
+    }
+  ],
+  "portfolio": {
+    "summary": {
+      "audits_total": 4,
+      "unique_mls": 1,
+      "launch_ready": 0,
+      "with_gaps": 1,
+      "errored": 0,
+      "audits_by_month": {
+        "labels": [
+          "2026-08"
+        ],
+        "data": [
+          4
+        ]
+      }
+    },
+    "rows": [
+      {
+        "slug": "spark-rebny-demo",
+        "mls": "Spark REBNY (demo)",
+        "latest_verdict": "T1 gaps",
+        "verdict_bucket": "with_gaps",
+        "owner": "Ivan Cantucantu",
+        "last_run": "2026-08-31T18:39:23+00:00",
+        "t1_gaps": 21,
+        "t2_gaps": 4,
+        "t3_gaps": 12,
+        "pass_pct": 70.6,
+        "feed_url": "https://replication.sparkapi.com/Reso/OData/",
+        "auth": "bearer",
+        "report_path": "reports/spark-rebny-demo/2026-08-31T18-39-23Z/"
+      }
+    ]
+  },
+  "findings": {
+    "headline": {
+      "total_fields_checked": 245,
+      "avg_pass_pct": 70.6
+    },
+    "blockers_funnel": [
+      {
+        "label": "Tier 1 (blocks launch)",
+        "count": 21,
+        "pct": 56.8
+      },
+      {
+        "label": "Tier 2 (degraded UX)",
+        "count": 4,
+        "pct": 10.8
+      },
+      {
+        "label": "Tier 3 (verify)",
+        "count": 12,
+        "pct": 32.4
+      }
+    ],
+    "top_blockers": [
+      {
+        "field": "BathroomsFull",
+        "resource": "Property",
+        "tier": "1",
+        "affected_mls_count": 1,
+        "affected_mls": [
+          "Spark REBNY (demo)"
+        ]
+      },
+      {
+        "field": "BathroomsHalf",
+        "resource": "Property",
+        "tier": "1",
+        "affected_mls_count": 1,
+        "affected_mls": [
+          "Spark REBNY (demo)"
+        ]
+      },
+      {
+        "field": "BathroomsPartial",
+        "resource": "Property",
+        "tier": "1",
+        "affected_mls_count": 1,
+        "affected_mls": [
+          "Spark REBNY (demo)"
+        ]
+      },
+      {
+        "field": "BuyerAgentKeyNumeric",
+        "resource": "Property",
+        "tier": "1",
+        "affected_mls_count": 1,
+        "affected_mls": [
+          "Spark REBNY (demo)"
+        ]
+      },
+      {
+        "field": "BuyerOfficeKeyNumeric",
+        "resource": "Property",
+        "tier": "1",
+        "affected_mls_count": 1,
+        "affected_mls": [
+          "Spark REBNY (demo)"
+        ]
+      },
+      {
+        "field": "CoBuyerAgentKey",
+        "resource": "Property",
+        "tier": "1",
+        "affected_mls_count": 1,
+        "affected_mls": [
+          "Spark REBNY (demo)"
+        ]
+      },
+      {
+        "field": "CoBuyerAgentKeyNumeric",
+        "resource": "Property",
+        "tier": "1",
+        "affected_mls_count": 1,
+        "affected_mls": [
+          "Spark REBNY (demo)"
+        ]
+      },
+      {
+        "field": "CoBuyerAgentMlsId",
+        "resource": "Property",
+        "tier": "1",
+        "affected_mls_count": 1,
+        "affected_mls": [
+          "Spark REBNY (demo)"
+        ]
+      },
+      {
+        "field": "CoBuyerOfficeKey",
+        "resource": "Property",
+        "tier": "1",
+        "affected_mls_count": 1,
+        "affected_mls": [
+          "Spark REBNY (demo)"
+        ]
+      },
+      {
+        "field": "CoBuyerOfficeMlsId",
+        "resource": "Property",
+        "tier": "1",
+        "affected_mls_count": 1,
+        "affected_mls": [
+          "Spark REBNY (demo)"
+        ]
+      }
+    ]
+  },
+  "standouts": {
+    "top_at_risk": {
+      "mls": "Spark REBNY (demo)",
+      "value": "21 T1 gaps",
+      "metric": "blockers to close",
+      "blurb": "Spark REBNY (demo) has the most Tier-1 blockers open \u2014 the highest-leverage feed to work with the MLS on."
+    }
+  },
+  "leaderboard": {
+    "categories": [
+      {
+        "id": "most_audits",
+        "title": "Most audits run",
+        "subtitle": "Total published runs, all time",
+        "unit": "runs",
+        "entries": [
+          {
+            "owner": "Ivan Cantucantu",
+            "value": 4
+          }
+        ],
+        "champion": "Ivan Cantucantu"
+      },
+      {
+        "id": "most_t1_caught",
+        "title": "Most T1 blockers surfaced",
+        "subtitle": "Sum of T1 fails across every run this auditor published",
+        "unit": "blockers",
+        "entries": [
+          {
+            "owner": "Ivan Cantucantu",
+            "value": 80
+          }
+        ],
+        "champion": "Ivan Cantucantu"
+      }
+    ],
+    "podium": {
+      "Ivan Cantucantu": 4
+    }
+  },
+  "checklists": [
+    {
+      "name": "RDC+ Galaxy",
+      "status": "Live",
+      "fact": "Tier 1 / 2 / 3 required-field checklist for RDC+ launch readiness. Maintained by the Content team.",
+      "cite": "galaxy_ref"
+    },
+    {
+      "name": "ListHub",
+      "status": "Live",
+      "fact": "ListHub reconvert key-data-points checklist. Comparison target for feeds that need distribution parity.",
+      "cite": "listhub_ref"
+    }
+  ],
+  "recent": [
+    {
+      "mls": "Spark REBNY (demo)",
+      "verdict": "T1 gaps",
+      "last_run": "2026-08-31T18:39:23+00:00",
+      "report_path": "reports/spark-rebny-demo/2026-08-31T18-39-23Z/"
+    }
+  ],
+  "citations": {
+    "manifest": {
+      "kind": "text",
+      "language": "text",
+      "explanation": "manifest.json is appended to by publish_audit() in app.py on every published run. Located at docs/manifest.json in this repo."
+    },
+    "verdict_calc": {
+      "kind": "text",
+      "language": "text",
+      "explanation": "Verdict comes from compute_rollup() in app.py \u2014 an audit is 'launch-ready' when it has zero Tier-1 fails, 'errored' on transport failure, 'not_ready' (T1 gaps) otherwise."
+    },
+    "rollup_calc": {
+      "kind": "text",
+      "language": "text",
+      "explanation": "Per-run rollup is computed by re-reading each run's galaxy.csv + listhub.csv. Pass rate = PASS / total non-COUNT rows. Tier fails are grouped by the `tier` column."
+    },
+    "galaxy_ref": {
+      "kind": "text",
+      "language": "text",
+      "explanation": "The RDC+ Galaxy checklist is maintained by the Content team's cco:mls-metadata-audit Claude Code skill. Do not edit tier assignments here \u2014 update the source."
+    },
+    "listhub_ref": {
+      "kind": "text",
+      "language": "text",
+      "explanation": "ListHub reconvert checklist \u2014 the distribution-parity target used alongside Galaxy at audit time."
+    },
+    "__refresh_data_py__": {
+      "kind": "code",
+      "language": "python",
+      "explanation": "This script (scripts/generate_portfolio.py) regenerates portfolio.json from manifest.json and the per-run CSVs. Called by publish_audit in app.py after each audit publishes."
+    }
+  }
+}
