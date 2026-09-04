@@ -3,9 +3,7 @@
     "title": "MLS Audit Portfolio",
     "subtitle": "Launch-readiness across every MLS feed the team has audited",
     "as_of": "2026-09-04",
-    "generated_at": "2026-09-04T16:14:21+00:00",
-    "workbook_stale": false,
-    "workbook_prev_asof": null,
+    "generated_at": "2026-09-04T17:07:30+00:00",
     "source_manifest": "manifest.json"
   },
   "narrative": "4 audit runs across 1 MLS. 0 currently launch-ready, 1 with Tier-1 gaps, 0 errored. Median field pass rate: 70.6%. Most common blocker: BathroomsFull on Property (1 feed affected).",
@@ -14,43 +12,29 @@
       "id": "kpi-audits",
       "label": "Total audits",
       "value": "4",
-      "sub": "across 1 MLSs",
+      "sub": "across 1 MLS",
       "cite": "manifest"
     },
     {
       "id": "kpi-ready",
-      "label": "Launch-ready feeds",
+      "label": "Launch-ready",
       "value": "0",
-      "sub": "latest run per MLS",
+      "sub": "feeds cleared to ship",
       "cite": "verdict_calc"
     },
     {
-      "id": "kpi-t1",
-      "label": "Feeds with T1 gaps",
+      "id": "kpi-blocked",
+      "label": "Blocked by T1",
       "value": "1",
-      "sub": "blocking launch",
+      "sub": "Tier-1 gaps still open",
       "cite": "verdict_calc"
     },
     {
       "id": "kpi-errored",
-      "label": "Errored runs",
+      "label": "Errored",
       "value": "0",
-      "sub": "connection or auth failures",
+      "sub": "connection / auth failure",
       "cite": "verdict_calc"
-    },
-    {
-      "id": "kpi-owners",
-      "label": "Auditors active",
-      "value": "1",
-      "sub": "contributors on the manifest",
-      "cite": "manifest"
-    },
-    {
-      "id": "kpi-passrate",
-      "label": "Median pass rate",
-      "value": "70.6%",
-      "sub": "across latest runs",
-      "cite": "rollup_calc"
     }
   ],
   "portfolio": {
@@ -59,15 +43,7 @@
       "unique_mls": 1,
       "launch_ready": 0,
       "with_gaps": 1,
-      "errored": 0,
-      "audits_by_month": {
-        "labels": [
-          "2026-08"
-        ],
-        "data": [
-          4
-        ]
-      }
+      "errored": 0
     },
     "rows": [
       {
@@ -90,7 +66,8 @@
   "findings": {
     "headline": {
       "total_fields_checked": 245,
-      "avg_pass_pct": 70.6
+      "avg_pass_pct": 70.6,
+      "median_pass_pct": 70.6
     },
     "blockers_funnel": [
       {
@@ -202,67 +179,46 @@
       }
     ]
   },
-  "standouts": {
-    "top_at_risk": {
-      "mls": "Spark REBNY (demo)",
-      "value": "21 T1 gaps",
-      "metric": "blockers to close",
-      "blurb": "Spark REBNY (demo) has the most Tier-1 blockers open \u2014 the highest-leverage feed to work with the MLS on."
-    }
-  },
-  "leaderboard": {
-    "categories": [
-      {
-        "id": "most_audits",
-        "title": "Most audits run",
-        "subtitle": "Total published runs, all time",
-        "unit": "runs",
-        "entries": [
-          {
-            "owner": "Ivan Cantucantu",
-            "value": 4
-          }
-        ],
-        "champion": "Ivan Cantucantu"
-      },
-      {
-        "id": "most_t1_caught",
-        "title": "Most T1 blockers surfaced",
-        "subtitle": "Sum of T1 fails across every run this auditor published",
-        "unit": "blockers",
-        "entries": [
-          {
-            "owner": "Ivan Cantucantu",
-            "value": 80
-          }
-        ],
-        "champion": "Ivan Cantucantu"
-      }
-    ],
-    "podium": {
-      "Ivan Cantucantu": 4
-    }
-  },
-  "checklists": [
-    {
-      "name": "RDC+ Galaxy",
-      "status": "Live",
-      "fact": "Tier 1 / 2 / 3 required-field checklist for RDC+ launch readiness. Maintained by the Content team.",
-      "cite": "galaxy_ref"
-    },
-    {
-      "name": "ListHub",
-      "status": "Live",
-      "fact": "ListHub reconvert key-data-points checklist. Comparison target for feeds that need distribution parity.",
-      "cite": "listhub_ref"
-    }
-  ],
-  "recent": [
+  "activity": [
     {
       "mls": "Spark REBNY (demo)",
       "verdict": "T1 gaps",
-      "last_run": "2026-08-31T18:39:23+00:00",
+      "verdict_bucket": "with_gaps",
+      "owner": "Ivan Cantucantu",
+      "at": "2026-08-31T18:39:23+00:00",
+      "t1_gaps": 21,
+      "pass_pct": 70.6,
       "report_path": "reports/spark-rebny-demo/2026-08-31T18-39-23Z/"
+    },
+    {
+      "mls": "Spark REBNY (demo)",
+      "verdict": "T1 gaps",
+      "verdict_bucket": "with_gaps",
+      "owner": "Ivan Cantucantu",
+      "at": "2026-08-31T18:34:59+00:00",
+      "t1_gaps": 21,
+      "pass_pct": 71.0,
+      "report_path": "reports/spark-rebny-demo/2026-08-31T18-34-59Z/"
+    },
+    {
+      "mls": "Spark REBNY (demo)",
+      "verdict": "T1 gaps",
+      "verdict_bucket": "with_gaps",
+      "owner": "Ivan Cantucantu",
+      "at": "2026-08-31T18:04:02+00:00",
+      "t1_gaps": 21,
+      "pass_pct": 70.6,
+      "report_path": "reports/spark-rebny-demo/2026-08-31T18-04-02Z/"
+    },
+    {
+      "mls": "Spark REBNY (demo)",
+      "verdict": "T1 gaps",
+      "verdict_bucket": "with_gaps",
+      "owner": "Ivan Cantucantu",
+      "at": "2026-08-31T17:57:42+00:00",
+      "t1_gaps": 17,
+      "pass_pct": 73.1,
+      "report_path": "reports/spark-rebny-demo/2026-08-31T17-57-42Z/"
     }
   ],
   "citations": {
@@ -280,16 +236,6 @@
       "kind": "text",
       "language": "text",
       "explanation": "Per-run rollup is computed by re-reading each run's galaxy.csv + listhub.csv. Pass rate = PASS / total non-COUNT rows. Tier fails are grouped by the `tier` column."
-    },
-    "galaxy_ref": {
-      "kind": "text",
-      "language": "text",
-      "explanation": "The RDC+ Galaxy checklist is maintained by the Content team's cco:mls-metadata-audit Claude Code skill. Do not edit tier assignments here \u2014 update the source."
-    },
-    "listhub_ref": {
-      "kind": "text",
-      "language": "text",
-      "explanation": "ListHub reconvert checklist \u2014 the distribution-parity target used alongside Galaxy at audit time."
     },
     "__refresh_data_py__": {
       "kind": "code",
